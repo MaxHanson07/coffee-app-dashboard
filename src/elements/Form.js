@@ -1,56 +1,74 @@
 import React, { useState, useEffect } from "react";
 import { Input, TextArea, FormBtn } from "../components/Form/index.js";
-​
-function ShopForm({id}) {
-​
+import API from "../utils/API";
+
+function ShopForm({ id }) {
+
     // Initial state of user inputted value
     const [formObject, setFormObject] = useState({})
-​
+
     // Handles updating component state when the user types into the input field
     function handleInputChange(event) {
         const { name, value } = event.target;
         setFormObject({ ...formObject, [name]: value })
     };
-​
-      function handleFormSubmit(e) {
-          e.preventDefault()
+
+    function handleFormSubmit(e) {
+        e.preventDefault()
         console.log(formObject)
-​
-        // TODO - Replace with actual API call
-        if(id) {
+
+        // TODO - Test
+        if (id) {
             console.log('UPDATE')
+            API.updateShop(id)({
+                name: formObject.name,
+                lat: formObject.lat,
+                lon: formObject.lon,
+                formatted_address: formObject.address,
+                website: formObject.website,
+                insta: formObject.insta
+            })
         } else {
             console.log('CREATE')
+            API.postShop({
+                name: formObject.name,
+                lat: formObject.lat,
+                lon: formObject.lon,
+                formatted_address: formObject.address,
+                website: formObject.website,
+                insta: formObject.insta
+            })
         }
-​
-​
-      }
-​
-      // TODO - Replace with actual API call
-      function handleDelete(e) {
+
+    }
+
+    // TODO - Test
+    function handleDelete(e) {
         e.preventDefault()
         console.log('DELETE', id)
+        API.deleteShop(id)
+            .catch(err => console.log(err));
     }
-​
+
     function getCoffeeShopById(id) {
         // TODO - Replace with actual API call
         return new Promise(resolve => setTimeout(() => resolve({
             name: 'Zumba Coffee Roasters'
         }), 800))
     }
-​
-      useEffect(() => {
-          if(id) {
-              getCoffeeShopById(id).then((shopForm) => {
-                  setFormObject(shopForm)
-              })
-          
-            } 
-​
-      }, [])
-​
+
+    useEffect(() => {
+        if (id) {
+            getCoffeeShopById(id).then((shopForm) => {
+                setFormObject(shopForm)
+            })
+
+        }
+
+    }, [])
+
     return (
-​
+
         <form>
             <Input
                 onChange={handleInputChange}
@@ -97,6 +115,12 @@ function ShopForm({id}) {
             {/* TODO - Images input goes here */}
             <Input
                 onChange={handleInputChange}
+                name="images"
+                value={formObject['images'] || ''}
+                placeholder="Images (required)"
+            />
+            <Input
+                onChange={handleInputChange}
                 name="roasterServed"
                 value={formObject['roasterServed'] || ''}
                 placeholder="RoastedServed (required)"
@@ -120,8 +144,8 @@ function ShopForm({id}) {
                 Delete
               </FormBtn>
         </form>
-​
+
     );
 }
-​
+
 export default ShopForm;
