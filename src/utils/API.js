@@ -14,6 +14,10 @@ export default {
     },
     postShop: function (shopData) {
         return axios.post("/api/cafes", shopData);
+    },
+    placesSearch: function (name) {
+        console.log(name)
+        return axios.get(process.env.REACT_APP_SERVER_URL + "/api/places/search/" + name)
     }
 
     // Request API calls
