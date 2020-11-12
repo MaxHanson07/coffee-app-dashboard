@@ -5,19 +5,23 @@ export default function Requests() {
     const [requests, setRequests] = useState([])
 ​
     useEffect(() => {
-​
-        // TODO - Replace with actual API call
-        const loadData = async () => {
-            await new Promise(resolve => setTimeout(resolve, 800))
-            setRequests([
-                {title: 'Request 1', id: '123'}, 
-                {title: 'Request 1', id: '124'}, 
-                {title: 'Request 1', id: '125'}
-            ])
-        }
-​
-        loadData()
+        loadRequests()
     }, [])
+
+    function loadRequests(){ 
+        API.getRequests()
+          .then(res => 
+            setRequests(res.data)
+          )
+          .catch(err => console.log(err));
+      };
+
+      function deleteRequest(id) {
+        API.deleteRequest(id)
+          .then(res => loadRequests())
+          .catch(err => console.log(err));
+      }
+
     return (
         <div>
             <h2>Incoming Requests</h2>

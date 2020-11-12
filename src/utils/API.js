@@ -14,6 +14,9 @@ export default {
     },
     postShop: function (shopData) {
         return axios.post("/api/cafes", shopData);
+    },
+    getRequests: function {
+        return axios.get("/api/requests")
     }
 
     // Request API calls
