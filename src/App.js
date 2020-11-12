@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Header from './components/Header/Header'
+import Search from './elements/Search/Search';
 import PlacesSearch from './elements/PlacesSearch';
 import API from './utils/API'
 
@@ -28,6 +29,7 @@ function App() {
   return ( 
     <div className="App">
       <Header />
+      <Search />
       <PlacesSearch 
       placesState={placesState} 
       handleInputChange={handlePlacesSearchInputChange}
