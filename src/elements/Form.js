@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Input, TextArea, FormBtn } from "../components/Form/index.js";
 import API from "../utils/API";
 
-function ShopForm({ id }) {
+function CafeForm({ id }) {
 
     // Initial state of user inputted value
     const [formObject, setFormObject] = useState({})
@@ -20,7 +20,7 @@ function ShopForm({ id }) {
         // TODO - Test
         if (id) {
             console.log('UPDATE')
-            API.updateShop(id)({
+            API.updateCafe(id)({
                 name: formObject.name,
                 lat: formObject.lat,
                 lon: formObject.lon,
@@ -30,7 +30,7 @@ function ShopForm({ id }) {
             })
         } else {
             console.log('CREATE')
-            API.postShop({
+            API.postCafe({
                 name: formObject.name,
                 lat: formObject.lat,
                 lon: formObject.lon,
@@ -45,11 +45,11 @@ function ShopForm({ id }) {
     function handleDelete(e) {
         e.preventDefault()
         console.log('DELETE', id)
-        API.deleteShop(id)
+        API.deleteCafe(id)
             .catch(err => console.log(err));
     }
 
-    function getCoffeeShopById(id) {
+    function getCoffeeCafeById(id) {
         // TODO - Replace with actual API call
         return new Promise(resolve => setTimeout(() => resolve({
             name: 'Zumba Coffee Roasters'
@@ -58,8 +58,8 @@ function ShopForm({ id }) {
 
     useEffect(() => {
         if (id) {
-            getCoffeeShopById(id).then((shopForm) => {
-                setFormObject(shopForm)
+            getCoffeeCafeById(id).then((cafeForm) => {
+                setFormObject(cafeForm)
             })
 
         }
@@ -147,4 +147,4 @@ function ShopForm({ id }) {
     );
 }
 
-export default ShopForm;
+export default CafeForm;
