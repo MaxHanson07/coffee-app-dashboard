@@ -16,7 +16,14 @@ export default {
         return axios.post("/api/cafes", shopData);
     },
     getRequests: function {
-        return axios.get("/api/requests")
+        return axios.get("/api/requests");
+    },
+    deleteRequest: function (id) {
+        return axios.delete("/api/requests/" + id);
+    },
+    placesSearch: function (name) {
+        console.log(name)
+        return axios.get(process.env.REACT_APP_SERVER_URL + "/api/places/search/" + name)
     }
 
     // Request API calls
