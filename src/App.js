@@ -3,6 +3,7 @@ import Header from './components/Header/Header'
 import Search from './elements/Search/Search';
 import PlacesSearch from './elements/PlacesSearch';
 import API from './utils/API'
+import Requests from './elements/Requests';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
       handleInputChange={handlePlacesSearchInputChange}
       handleSubmit={handlePlacesSearchSubmit}
       />
+      <Requests />
     </div>
   );
 }
