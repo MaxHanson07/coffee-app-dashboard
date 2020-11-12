@@ -39,7 +39,6 @@ function ShopForm({ id }) {
                 insta: formObject.insta
             })
         }
-
     }
 
     // TODO - Test
