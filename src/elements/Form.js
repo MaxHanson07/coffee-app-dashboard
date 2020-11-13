@@ -15,12 +15,10 @@ function CafeForm({ form, id }) {
 
     function handleFormSubmit(e) {
         e.preventDefault()
-        console.log(formObject)
 
         // If an id exists run an update, if no id run a create
         // Id will exist when a cafe is selected after a database search
         if (id) {
-            console.log('UPDATE')
             API.updateCafe(id)({
                 // Updates existing cafe
                 name: formObject.name,
@@ -33,7 +31,6 @@ function CafeForm({ form, id }) {
             })
         } else {
             // Creates a new cafe to database
-            console.log('CREATE')
             API.postCafe({
                 name: formObject.name,
                 lat: formObject.lat,
@@ -48,13 +45,11 @@ function CafeForm({ form, id }) {
     // Deletes cafes from database
     function handleDelete(e) {
         e.preventDefault()
-        console.log('DELETE', id)
         API.deleteCafe(id)
             .catch(err => console.log(err));
     }
 
     useEffect(() => {
-        console.log(form)
         setFormObject(form)
     }, [form])
 
