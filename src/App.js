@@ -41,7 +41,7 @@ function App() {
         website: cafes[0].website,
         weekday_text: cafes[0].weekday_text,
         photos: cafes[0].photos,
-      }
+       }
       setPlacesState({ ...placesState, searchResults: formattedObject })
       setCurrentCafe('')
     } catch (err) {
