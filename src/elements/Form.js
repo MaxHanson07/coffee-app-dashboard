@@ -83,6 +83,12 @@ function CafeForm({ form, id }) {
             />
             <Input
                 onChange={handleInputChange}
+                name="formatted_phone_number"
+                value={formObject['formatted_phone_number'] || ''}
+                placeholder="Phone Number (required)"
+            />
+            <Input
+                onChange={handleInputChange}
                 name="website"
                 value={formObject['website'] || ''}
                 placeholder="Website (required)"
