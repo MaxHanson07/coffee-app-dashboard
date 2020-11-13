@@ -29,6 +29,9 @@ export default {
     },
     addUrls: function(photoArray) {
         return axios.post(process.env.REACT_APP_SERVER_URL + "/api/photos", { photos: photoArray })
+    },
+    cafesSearch: function (name) {
+        console.log(name)
+        return axios.get(process.env.REACT_APP_SERVER_URL + "/api/cafes/search/" + name)
     }
-    
 };
