@@ -4,6 +4,7 @@ import Search from './elements/Search/Search';
 import PlacesSearch from './elements/PlacesSearch';
 import API from './utils/API'
 import Requests from './elements/Requests';
+import Photos from './elements/Photos'
 import CafeForm from './elements/Form';
 
 function App() {
@@ -26,7 +27,18 @@ function App() {
       event.preventDefault()
       let { data } = await API.placesSearch(placesState.placesSearchbar)
       let cafes = data.map(datum => datum.result)
-      setPlacesState({ ...placesState, searchResults: cafes })
+      let formattedObject = {
+        place_id: cafes[0].place_id,
+        name: cafes[0].name,
+        lat: cafes[0].geometry.location.lat,
+        lng: cafes[0].geometry.location.lng,
+        formatted_address: cafes[0].formatted_address,
+        website: cafes[0].website,
+        weekday_text: cafes[0].weekday_text,
+        photos: cafes[0].photos,
+      }
+      setPlacesState({ ...placesState, searchResults: formattedObject })
+      setCurrentCafe('')
     } catch (err) {
       console.error(err)
     }
@@ -44,6 +56,7 @@ function App() {
 
   const handleCafeChange = (cafeForm) => {
     setCurrentCafe(cafeForm)
+    setPlacesState({...placesState, searchResults: null})
   }
 
   return (
@@ -62,16 +75,19 @@ function App() {
         <button onClick={() => handleCafeChange(c)} key={c._id}>{c.name}</button>
       ))}
 
-      <CafeForm
-        form={currentCafe}
-        id={currentCafe._id}
-      />
       <PlacesSearch
         placesState={placesState}
         handleInputChange={handlePlacesSearchInputChange}
         handleSubmit={handlePlacesSearchSubmit}
       />
+        
+      <CafeForm
+      form={ placesState.searchResults || currentCafe}
+      id={currentCafe._id}
+      />
+      
       <Requests />
+      {placesState.searchResults ? <Photos photos={placesState.searchResults?.photos} /> : null}
     </div>
   );
 }

@@ -72,7 +72,7 @@ function CafeForm({ form, id }) {
             <Input
                 onChange={handleInputChange}
                 name="lng"
-                value={formObject['lon'] || ''}
+                value={formObject['lng'] || ''}
                 placeholder="Lng (required)"
             />
             <Input
