@@ -19,23 +19,25 @@ function CafeForm({ form, id }) {
         // If an id exists run an update, if no id run a create
         // Id will exist when a cafe is selected after a database search
         if (id) {
-            API.updateCafe(id)({
-                // Updates existing cafe
+            console.log('UPDATE')
+            API.updateCafe(id, {
                 name: formObject.name,
                 lat: formObject.lat,
                 lng: formObject.lng,
-                formatted_address: formObject.address,
+                formatted_address: formObject.formatted_address,
+                formatted_phone_number: formObject.formatted_phone_number,
                 website: formObject.website,
                 instagram_url: formObject.instagram_url,
                 roasters: formObject.roasters
-            })
+            }).then(res=>console.log(res))
         } else {
             // Creates a new cafe to database
             API.postCafe({
                 name: formObject.name,
                 lat: formObject.lat,
                 lng: formObject.lng,
-                formatted_address: formObject.address,
+                formatted_address: formObject.formatted_address,
+                formatted_phone_number: formObject.formatted_phone_number,
                 website: formObject.website,
                 instagram_url: formObject.instagram_url
             })
@@ -83,6 +85,12 @@ function CafeForm({ form, id }) {
             />
             <Input
                 onChange={handleInputChange}
+                name="formatted_phone_number"
+                value={formObject['formatted_phone_number'] || ''}
+                placeholder="Phone Number (required)"
+            />
+            <Input
+                onChange={handleInputChange}
                 name="website"
                 value={formObject['website'] || ''}
                 placeholder="Website (required)"
@@ -90,7 +98,7 @@ function CafeForm({ form, id }) {
             <Input
                 onChange={handleInputChange}
                 name="instagram_url"
-                value={formObject.custom_data?.instagram_url || ''}
+                value={formObject.instagram_url || ''}
                 placeholder="Insta (required)"
             />
             {/* TODO - Images input goes here */}
@@ -103,7 +111,7 @@ function CafeForm({ form, id }) {
             <Input
                 onChange={handleInputChange}
                 name="roasters"
-                value={formObject.custom_data?.roasters[0] || ''}
+                value={formObject.roasters || ''}
                 placeholder="Roasters (required)"
             />
             {/* Buttons are disabled depending on if an existing cafe is selected */}
