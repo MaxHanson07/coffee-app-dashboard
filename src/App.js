@@ -16,6 +16,8 @@ function App() {
       setPlacesState({...placesState, [name]: value})
   }
 
+  function handleCafeSearch
+
   async function handlePlacesSearchSubmit(event) {
       try {
           event.preventDefault()

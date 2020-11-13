@@ -16,7 +16,7 @@ function Search(props) {
             placeholder="Type the name of a cafe in to begin"
             id="cafe"
           />
-          <button type="submit" onClick={props.handleFormSubmit} className="btn btn-success">
+          <button type="submit" onClick={props.handleCafeSearch} className="btn btn-success">
             Search
           </button>
         </div>
