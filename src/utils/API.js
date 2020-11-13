@@ -6,8 +6,8 @@ export default {
     getCafe: function (id) {
         return axios.get(process.env.REACT_APP_SERVER_URL + "/api/cafes/" + id);
     },
-    updateCafe: function (id) {
-        return axios.put(process.env.REACT_APP_SERVER_URL + "/api/cafes/" + id);
+    updateCafe: function (id, data) {
+        return axios.put(process.env.REACT_APP_SERVER_URL + "/api/cafes/" + id, data);
     },
     deleteCafe: function (id) {
         return axios.delete(process.env.REACT_APP_SERVER_URL + "/api/cafes/" + id);

@@ -20,7 +20,7 @@ function CafeForm({ form, id }) {
         // TODO - Test
         if (id) {
             console.log('UPDATE')
-            API.updateCafe(id)({
+            API.updateCafe(id, {
                 name: formObject.name,
                 lat: formObject.lat,
                 lng: formObject.lng,
