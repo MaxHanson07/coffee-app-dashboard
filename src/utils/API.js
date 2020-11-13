@@ -26,6 +26,9 @@ export default {
     placesSearch: function (name) {
         console.log(name)
         return axios.get(process.env.REACT_APP_SERVER_URL + "/api/places/search/" + name)
+    },
+    cafesSearch: function (name) {
+        console.log(name)
+        return axios.get(process.env.REACT_APP_SERVER_URL + "/api/cafes/search/" + name)
     }
-    
 };
