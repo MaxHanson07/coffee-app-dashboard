@@ -9,6 +9,7 @@ export default function Requests() {
         loadRequests()
     }, [])
 
+    // Retrieves request from database and loads them on to dashboard
     function loadRequests() {
         API.getRequests()
             .then(res =>{
@@ -19,6 +20,7 @@ export default function Requests() {
             .catch(err => console.log(err));
     };
 
+    // Deletes request by the id of the request in which the delete button is selected
     function deleteRequest(id) {
         API.deleteRequest(id)
             .then(res => loadRequests())
@@ -29,6 +31,7 @@ export default function Requests() {
         <div>
             <h2>Incoming Requests</h2>
             {
+                // Displays each request in individual cards
                 requests.map((item) => (
                     <RequestCard
                         key={item._id}
