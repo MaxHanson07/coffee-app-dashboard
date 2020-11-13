@@ -4,7 +4,7 @@ import Search from './elements/Search/Search';
 import PlacesSearch from './elements/PlacesSearch';
 import API from './utils/API'
 import Requests from './elements/Requests';
-
+import Photos from './elements/Photos'
 
 function App() {
   const [placesState, setPlacesState] = useState({
@@ -37,6 +37,7 @@ function App() {
       handleSubmit={handlePlacesSearchSubmit}
       />
       <Requests />
+      {placesState.searchResults?<Photos photos={placesState.searchResults[0]?.photos}/>: null}
     </div>
   );
 }
