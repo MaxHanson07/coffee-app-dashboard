@@ -26,7 +26,8 @@ function CafeForm({ form, id }) {
                 lng: formObject.lng,
                 formatted_address: formObject.address,
                 website: formObject.website,
-                insta: formObject.insta
+                instagram_url: formObject.instagram_url,
+                roasters: formObject.roasters
             })
         } else {
             console.log('CREATE')
@@ -36,7 +37,7 @@ function CafeForm({ form, id }) {
                 lng: formObject.lng,
                 formatted_address: formObject.address,
                 website: formObject.website,
-                insta: formObject.insta
+                instagram_url: formObject.instagram_url
             })
         }
     }
@@ -72,7 +73,7 @@ function CafeForm({ form, id }) {
             <Input
                 onChange={handleInputChange}
                 name="lng"
-                value={formObject['lon'] || ''}
+                value={formObject['lng'] || ''}
                 placeholder="Lng (required)"
             />
             <Input
@@ -89,8 +90,8 @@ function CafeForm({ form, id }) {
             />
             <Input
                 onChange={handleInputChange}
-                name="insta"
-                value={formObject['insta'] || ''}
+                name="instagram_url"
+                value={formObject.custom_data?.instagram_url || ''}
                 placeholder="Insta (required)"
             />
             {/* TODO - Images input goes here */}
@@ -102,9 +103,9 @@ function CafeForm({ form, id }) {
             />
             <Input
                 onChange={handleInputChange}
-                name="roasterServed"
-                value={formObject['roasterServed'] || ''}
-                placeholder="RoastedServed (required)"
+                name="roasters"
+                value={formObject.custom_data?.roasters[0] || ''}
+                placeholder="Roasters (required)"
             />
             <FormBtn
                 onClick={handleFormSubmit}
