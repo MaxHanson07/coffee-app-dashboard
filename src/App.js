@@ -12,15 +12,18 @@ function App() {
     searchResults: {}
   })
 
+  // Sets cafe state to track which current cafe is selected
   const [cafeSearch, setCafeSearch] = useState('')
   const [cafes, setCafes] = useState([])
   const [currentCafe, setCurrentCafe] = useState({})
 
+  // Retrieves user input in places search
   function handlePlacesSearchInputChange(event) {
     let { name, value } = event.target
     setPlacesState({ ...placesState, [name]: value })
   }
 
+  // Makes an API call to Google Places
   async function handlePlacesSearchSubmit(event) {
     try {
       event.preventDefault()

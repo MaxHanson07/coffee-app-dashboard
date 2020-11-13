@@ -17,10 +17,12 @@ function CafeForm({ form, id }) {
         e.preventDefault()
         console.log(formObject)
 
-        // TODO - Test
+        // If an id exists run an update, if no id run a create
+        // Id will exist when a cafe is selected after a database search
         if (id) {
             console.log('UPDATE')
             API.updateCafe(id)({
+                // Updates existing cafe
                 name: formObject.name,
                 lat: formObject.lat,
                 lng: formObject.lng,
@@ -30,6 +32,7 @@ function CafeForm({ form, id }) {
                 roasters: formObject.roasters
             })
         } else {
+            // Creates a new cafe to database
             console.log('CREATE')
             API.postCafe({
                 name: formObject.name,
@@ -42,7 +45,7 @@ function CafeForm({ form, id }) {
         }
     }
 
-    // TODO - Test
+    // Deletes cafes from database
     function handleDelete(e) {
         e.preventDefault()
         console.log('DELETE', id)
@@ -58,6 +61,7 @@ function CafeForm({ form, id }) {
     return (
 
         <form>
+            {/* Allows admins to customize cafe details */}
             <Input
                 onChange={handleInputChange}
                 name="name"
@@ -107,6 +111,7 @@ function CafeForm({ form, id }) {
                 value={formObject.custom_data?.roasters[0] || ''}
                 placeholder="Roasters (required)"
             />
+            {/* Buttons are disabled depending on if an existing cafe is selected */}
             <FormBtn
                 onClick={handleFormSubmit}
                 disabled={id}

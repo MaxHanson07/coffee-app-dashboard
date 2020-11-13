@@ -27,6 +27,7 @@ export default {
         console.log(name)
         return axios.get(process.env.REACT_APP_SERVER_URL + "/api/places/search/" + name)
     },
+    // Get cafe by name (used in database search)
     cafesSearch: function (name) {
         console.log(name)
         return axios.get(process.env.REACT_APP_SERVER_URL + "/api/cafes/search/" + name)
