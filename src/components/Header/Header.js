@@ -1,15 +1,11 @@
 import React from "react";
-import "./header.css";
+import Logo from "../../images/logo.png";
+import "./Header.scss";
 
-function Header() {
+export default function Header() {
   return (
-    <div>
-    <ul id="nav">
-      <li><a href="#">Coffee</a></li>
-      
-    </ul>
-  </div>
+    <header>
+      <img className="logo" src={Logo} alt="Coffee App Logo" />
+    </header>
   );
 }
-
-export default Header

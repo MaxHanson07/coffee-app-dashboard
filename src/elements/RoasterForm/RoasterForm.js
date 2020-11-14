@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Input, FormBtn } from "../components/Form/index.js";
-import API from "../utils/API";
+import Button from "../../components/Button/Button.js";
+import InputField from "../../components/InputField/InputField.js";
+import API from "../../utils/API";
 
 
 function RoasterForm() {
@@ -15,7 +16,6 @@ function RoasterForm() {
     // Sets roaster state to track which current cafe is selected
     const [roasterSearch, setRoasterSearch] = useState('')
     const [roasters, setRoasters] = useState([])
-    // const [currentRoaster, setCurrentRoaster] = useState({})
 
     // Adds/Updates a roaster to/in the database
     function handleRoasterFormSubmit(event) {
@@ -70,18 +70,18 @@ function RoasterForm() {
         <div>
             <h2>Add/Edit a roaster:</h2>
             <form onSubmit={handleRoasterSearchSubmit}>
-                <input type="text" onChange={handleRoasterSearchChange} name="roaster" placeholder="Search for a roaster to edit" value={roasterSearch} />
+                <InputField type="text" onChange={handleRoasterSearchChange} name="roaster" placeholder="Search for a roaster to edit" value={roasterSearch} />
                 <button>Search</button>
             </form>
             {roasters.map((roaster) => (
                 <button onClick={() => handleRoasterSelection(roaster)} key={roaster._id}>{roaster.name}</button>
             ))}
             <form onSubmit={handleRoasterFormSubmit}>
-                <Input name="name" placeholder="name" onChange={handleRoasterInputChange} value={roasterFormObject.name} />
-                <Input name="instagram_url" placeholder="instagram url" onChange={handleRoasterInputChange} value={roasterFormObject.instagram_url} />
-                <Input name="website" placeholder="website" onChange={handleRoasterInputChange} value={roasterFormObject.website} />
-                <FormBtn disabled={!roasterFormObject._id}>Update</FormBtn>
-                <FormBtn disabled={roasterFormObject._id}>Add</FormBtn>
+                <InputField name="name" placeholder="name" onChange={handleRoasterInputChange} value={roasterFormObject.name} />
+                <InputField name="instagram_url" placeholder="instagram url" onChange={handleRoasterInputChange} value={roasterFormObject.instagram_url} />
+                <InputField name="website" placeholder="website" onChange={handleRoasterInputChange} value={roasterFormObject.website} />
+                <button disabled={!roasterFormObject._id}>Update</button>
+                <button disabled={roasterFormObject._id}>Add</button>
             </form>
         </div>
     )

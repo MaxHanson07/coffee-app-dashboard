@@ -1,14 +1,10 @@
 import React from "react";
-import "./button.css";
+import "./Button.scss";
 
-function Button(props) {
+export default function Button(props) {
   return (
-    <button 
-      onClick={props.onClick} 
-      className={`card-btn ${props["data-value"]}`} 
-      data-value={props["data-value"]} 
-    />
+    <button type="submit" {...props}>
+      {props.name}
+    </button>
   );
 }
-
-export default Button;
