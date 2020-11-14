@@ -29,6 +29,20 @@ export default {
       process.env.REACT_APP_SERVER_URL + "/api/requests/" + id
     );
   },
+  getRoaster: function (id) {
+    return axios.get(process.env.REACT_APP_SERVER_URL + "/api/roasters/" + id);
+  },
+  postRoaster: function (data) {
+    return axios.post(
+      process.env.REACT_APP_SERVER_URL + "/api/roasters/",
+      data
+    );
+  },
+  roastersSearch: function (name) {
+    return axios.get(
+      process.env.REACT_APP_SERVER_URL + "/api/roasters/search/" + name
+    );
+  },
   // Google Places API calls
   placesSearch: function (name) {
     console.log(name);
