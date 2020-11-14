@@ -1,27 +1,23 @@
-import React from 'react';
-import "./style.css";
+import React from "react";
+import Button from "../../components/Button/Button";
+import InputField from "../../components/InputField/InputField";
+import "./Search.scss";
 
 function Search(props) {
-    return (
-      <form className="search">
-        <div className="form-group">
-          <label htmlFor="cafes">Cafe Name:</label>
-          <input
-            value={props.search}
-            onChange={props.handleInputChange}
-            name="cafe"
-            list="cafes"
-            type="text"
-            className="form-control"
-            placeholder="Type the name of a cafe in to begin"
-            id="cafe"
-          />
-          <button type="submit" onClick={props.handleFormSubmit} className="btn btn-success">
-            Search
-          </button>
-        </div>
-      </form>
-    );
-  }
+  return (
+    <form className="Search">
+      <InputField
+        name="cafes"
+        value={props.search}
+        onChange={props.handleInputChange}
+        list="cafes"
+        type="text"
+        placeholder="Type the name of a cafe in to begin"
+        id="cafe"
+      />
+      <Button name="Search" onClick={props.handleFormSubmit} />
+    </form>
+  );
+}
 
-  export default Search
+export default Search;
