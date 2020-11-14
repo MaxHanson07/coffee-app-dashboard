@@ -13,7 +13,7 @@ export default function PlacesSearch(props) {
         value={props.searchBar}
         onChange={props.handleInputChange}
       />
-      <Button name="Search" />
+      <Button className="Btn" name="Search" />
     </form>
   );
 }

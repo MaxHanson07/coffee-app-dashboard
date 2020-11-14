@@ -188,9 +188,10 @@ function CafeForm({ form, id }) {
           value={formObject.searchRoaster || ""}
           placeholder="Add a roaster"
         />
-        <Button name="Search" onClick={searchRoasters} />
+        <Button className="Btn" name="Search" onClick={searchRoasters} />
         {roastersReturned.map((roaster) => (
           <Button
+            className="Btn"
             name={roaster.name}
             onClick={(event) => handleRoasterSelect(roaster, event)}
             key={roaster._id}
@@ -200,9 +201,24 @@ function CafeForm({ form, id }) {
         {/* Buttons are disabled depending on if an existing cafe is selected */}
 
         <div className="BtnDiv">
-          <Button name="Add" onClick={handleFormSubmit} disabled={id} />
-          <Button name="Update" onClick={handleFormSubmit} disabled={id} />
-          <Button name="Delete" onClick={handleDelete} disabled={id} />
+          <Button
+            className="Btn"
+            name="Add"
+            onClick={handleFormSubmit}
+            disabled={id}
+          />
+          <Button
+            className="Btn"
+            name="Update"
+            onClick={handleFormSubmit}
+            disabled={id}
+          />
+          <Button
+            className="Btn"
+            name="Delete"
+            onClick={handleDelete}
+            disabled={id}
+          />
         </div>
       </form>
 
@@ -226,7 +242,7 @@ function CafeForm({ form, id }) {
           onChange={handleRoasterInputChange}
           value={roasterFormObject.website}
         />
-        <Button name="Add" />
+        <Button className="Btn" name="Add" />
       </form>
     </>
   );

@@ -3,7 +3,7 @@ import "./Button.scss";
 
 export default function Button(props) {
   return (
-    <button className="Btn" type="submit" {...props}>
+    <button type="submit" {...props}>
       {props.name}
     </button>
   );
