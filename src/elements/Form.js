@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Input, TextArea, FormBtn } from "../components/Form/index.js";
+import { Input, FormBtn } from "../components/Form/index.js";
 import API from "../utils/API";
 
 function CafeForm({ form, id }) {
@@ -7,13 +7,7 @@ function CafeForm({ form, id }) {
     // Initial state of user inputted value
     const [formObject, setFormObject] = useState(form)
 
-    const [roasterFormObject, setRoasterFormObject] = useState({
-        name: "",
-        instagram_url: "",
-        photos: [], 
-        website: ""
-    })
-
+    
     const [roastersReturned, setRoastersReturned] = useState([])
 
     // Handles updating component state when the user types into the input field
@@ -22,11 +16,7 @@ function CafeForm({ form, id }) {
         setFormObject({ ...formObject, [name]: value })
     };
 
-    function handleRoasterInputChange(event) {
-        const { name, value } = event.target;
-        setRoasterFormObject({ ...roasterFormObject, [name]: value })
-    };
-
+  
     function handleFormSubmit(e) {
         e.preventDefault()
         // If an id exists run an update, if no id run a create
@@ -57,19 +47,6 @@ function CafeForm({ form, id }) {
             })
         }
         setFormObject({})
-    }
-
-    // Adds a roaster to the database
-    function handleRoasterFormSubmit(event) {
-        event.preventDefault();
-        API.postRoaster(roasterFormObject)
-            .catch(err=>console.error(err))
-        setRoasterFormObject({
-            name: "",
-            instagram_url: "",
-            photos: [], 
-            website: ""
-        })
     }
 
     // Deletes cafes from database
@@ -120,7 +97,6 @@ function CafeForm({ form, id }) {
     }, [form])
 
     return (
-        <div>
             <form>
                 {/* Allows admins to customize cafe details */}
                 <Input
@@ -210,15 +186,6 @@ function CafeForm({ form, id }) {
                     Delete
               </FormBtn>
             </form>
-            <h2>Add a roaster:</h2>
-            <form onSubmit={handleRoasterFormSubmit}>
-                <Input name="name" placeholder="name" onChange={handleRoasterInputChange} value={roasterFormObject.name} />
-                <Input name="instagram_url" placeholder="instagram url" onChange={handleRoasterInputChange} value={roasterFormObject.instagram_url} />
-                <Input name="website" placeholder="website" onChange={handleRoasterInputChange} value={roasterFormObject.website} />
-                <button>Add</button>
-            </form>
-        </div>
-
     );
 }
 

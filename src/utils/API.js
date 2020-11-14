@@ -25,8 +25,11 @@ export default {
     getRoaster: function (id) {
         return axios.get(process.env.REACT_APP_SERVER_URL + "/api/roasters/" + id);
     },
-    postRoaster: function (data) {
+    postRoaster: function (id, data) {
         return axios.post(process.env.REACT_APP_SERVER_URL + "/api/roasters/", data);
+    },
+    updateRoaster: function (id, data) {
+        return axios.put(process.env.REACT_APP_SERVER_URL + "/api/roasters/" +id, data);
     },
     roastersSearch: function (name) {
         return axios.get(process.env.REACT_APP_SERVER_URL + "/api/roasters/search/" + name);

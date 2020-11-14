@@ -6,6 +6,8 @@ import API from './utils/API'
 import Requests from './elements/Requests';
 import Photos from './elements/Photos'
 import CafeForm from './elements/Form';
+import RoasterForm from './elements/RoasterForm';
+
 
 function App() {
   const [placesState, setPlacesState] = useState({
@@ -17,6 +19,8 @@ function App() {
   const [cafeSearch, setCafeSearch] = useState('')
   const [cafes, setCafes] = useState([])
   const [currentCafe, setCurrentCafe] = useState({})
+
+  
 
   // Retrieves user input in places search
   function handlePlacesSearchInputChange(event) {
@@ -42,15 +46,16 @@ function App() {
         photos: cafes[0].photos,
       }
 
-      setPlacesState({ ...placesState, searchResults: formattedObject, placesSearchbar:"" })
+      setPlacesState({ ...placesState, searchResults: formattedObject, placesSearchbar: "" })
       setCurrentCafe('')
-     
+
     } catch (err) {
       console.error(err)
     }
   }
 
-  // Makes API call to database to search for a cafe with a name similar to the name entered in searchbar
+
+  // Makes API call to database to search for cafe with a name similar to the name entered in searchbar
   async function handleCafesSearchSubmit(event) {
     try {
       event.preventDefault()
@@ -65,7 +70,7 @@ function App() {
   // Retrieves user input in the searchbar
   const handleCafeChange = (cafeForm) => {
     setCurrentCafe(cafeForm)
-    setPlacesState({...placesState, searchResults: null})
+    setPlacesState({ ...placesState, searchResults: null })
     setCafes([])
   }
 
@@ -96,13 +101,15 @@ function App() {
         handleSubmit={handlePlacesSearchSubmit}
         value={placesState.placesSearchbar}
       />
-           
+
       {/* Passes state from either places search or database search to populate the form with known details */}
       <CafeForm
-      form={ placesState.searchResults || currentCafe}
-      id={currentCafe._id}
+        form={placesState.searchResults || currentCafe}
+        id={currentCafe._id}
       />
-      
+     
+      <RoasterForm />
+
       {/* Displays requests sent in by users on client side */}
       <Requests />
       {/* Displays photos from Google Places */}
