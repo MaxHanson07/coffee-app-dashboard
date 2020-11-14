@@ -37,13 +37,14 @@ function App() {
         lat: cafes[0].geometry.location.lat,
         lng: cafes[0].geometry.location.lng,
         formatted_address: cafes[0].formatted_address,
-        formatted_phone_number: cafes[0].formatted_phone_number,
         website: cafes[0].website,
         weekday_text: cafes[0].weekday_text,
         photos: cafes[0].photos,
-       }
-      setPlacesState({ ...placesState, searchResults: formattedObject })
+      }
+
+      setPlacesState({ ...placesState, searchResults: formattedObject, placesSearchbar:"" })
       setCurrentCafe('')
+     
     } catch (err) {
       console.error(err)
     }
@@ -55,6 +56,7 @@ function App() {
       event.preventDefault()
       let { data } = await API.cafesSearch(cafeSearch)
       setCafes(data)
+      setCafeSearch("")
     } catch (err) {
       console.error(err)
     }
@@ -64,6 +66,7 @@ function App() {
   const handleCafeChange = (cafeForm) => {
     setCurrentCafe(cafeForm)
     setPlacesState({...placesState, searchResults: null})
+    setCafes([])
   }
 
   return (
@@ -82,8 +85,8 @@ function App() {
       />
       {/* Displays search results as a button displaying the cafe name */}
       {/* Click the name of cafe to select that cafe and populate the form with details already stored in database */}
-      {cafes.map((c) => (
-        <button onClick={() => handleCafeChange(c)} key={c._id}>{c.name}</button>
+      {cafes.map((cafe) => (
+        <button onClick={() => handleCafeChange(cafe)} key={cafe._id}>{cafe.name}</button>
       ))}
 
       {/* Retrieves input from Places searchbar and makes API call to Google Places */}
@@ -91,8 +94,9 @@ function App() {
         placesState={placesState}
         handleInputChange={handlePlacesSearchInputChange}
         handleSubmit={handlePlacesSearchSubmit}
+        value={placesState.placesSearchbar}
       />
-      
+           
       {/* Passes state from either places search or database search to populate the form with known details */}
       <CafeForm
       form={ placesState.searchResults || currentCafe}
