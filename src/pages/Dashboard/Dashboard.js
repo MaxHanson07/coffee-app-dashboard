@@ -68,7 +68,7 @@ function Dashboard() {
   };
 
   return (
-    <div className="App">
+    <div className="Dashboard">
       <Header />
       {/* Displays search bar and retrieves the user input inside of the searchbar */}
       <Search

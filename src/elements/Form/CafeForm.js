@@ -56,7 +56,8 @@ function CafeForm({ form, id }) {
   }, [form]);
 
   return (
-    <form>
+    <form className="DatabaseForm">
+      <h4>Cafe Form</h4>
       {/* Allows admins to customize cafe details */}
       <InputField
         onChange={handleInputChange}
@@ -114,9 +115,12 @@ function CafeForm({ form, id }) {
         placeholder="Roasters (required)"
       />
       {/* Buttons are disabled depending on if an existing cafe is selected */}
-      <Button name="Add" onClick={handleFormSubmit} disabled={id} />
-      <Button name="Update" onClick={handleFormSubmit} disabled={id} />
-      <Button name="Delete" onClick={handleDelete} disabled={id} />
+
+      <div className="BtnDiv">
+        <Button name="Add" onClick={handleFormSubmit} disabled={id} />
+        <Button name="Update" onClick={handleFormSubmit} disabled={id} />
+        <Button name="Delete" onClick={handleDelete} disabled={id} />
+      </div>
     </form>
   );
 }

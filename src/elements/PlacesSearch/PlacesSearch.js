@@ -5,7 +5,7 @@ import "./PlacesSearch.scss";
 
 export default function PlacesSearch(props) {
   return (
-    <form onSubmit={props.handleSubmit}>
+    <form className="PlacesSearch" onSubmit={props.handleSubmit}>
       <InputField
         type="text"
         name="placesSearchbar"

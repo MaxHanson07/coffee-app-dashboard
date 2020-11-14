@@ -28,8 +28,8 @@ export default function Requests() {
   }
 
   return (
-    <div>
-      <h2>Incoming Requests</h2>
+    <div className="Requests">
+      <h4>Incoming Requests</h4>
       {
         // Displays each request in individual cards
         requests.map((item) => (
