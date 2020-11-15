@@ -122,6 +122,7 @@ function CafeForm({ form, id }) {
     <>
       <form className="DatabaseForm">
         <h4>Cafe Form</h4>
+        <div className="Response"></div>
         {/* Allows admins to customize cafe details */}
         <InputField
           onChange={handleInputChange}
@@ -223,7 +224,8 @@ function CafeForm({ form, id }) {
       </form>
 
       <form className="RoasterForm" onSubmit={handleRoasterFormSubmit}>
-        <h2>Add a roaster:</h2>
+        <h4>Add a roaster:</h4>
+        <div className="Response"></div>
         <InputField
           name="name"
           placeholder="name"

@@ -1,11 +1,12 @@
 @import "../../SCSS/variables.scss";
 
 .DatabaseForm {
-  grid-row: 2 / span 1;
+  grid-row: 2 / span 4;
   grid-column: 3 / span 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 650px;
   margin: 40px 0;
   padding: 20px 0;
   border-radius: 10px;
@@ -19,5 +20,29 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+  }
+  .Response {
+    height: 30px;
+  }
+}
+
+.RoasterForm {
+  grid-row: 3 / span 1;
+  grid-column: 2 / span 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 260px;
+  margin: 0 40px;
+  padding: 20px 0;
+  background-color: #fff;
+  border-radius: 10px;
+  border: none;
+  box-shadow: $box-shadow;
+  font-family: $font-family;
+
+  .Response {
+    height: 30px;
   }
 }

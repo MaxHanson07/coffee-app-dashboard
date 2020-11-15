@@ -7,7 +7,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 120px;
+  height: 160px;
   margin: 40px 40px;
   padding: 20px 0;
   background-color: #fff;
@@ -15,4 +15,7 @@
   border: none;
   box-shadow: $box-shadow;
   font-family: $font-family;
+  .Response {
+    height: 30px;
+  }
 }

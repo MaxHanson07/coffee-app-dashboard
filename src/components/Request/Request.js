@@ -21,6 +21,7 @@ export default function RequestCard(props) {
         <p> {props.notes}</p>
       </div>
       <Button
+        className="Btn"
         style={{ margin: "auto" }}
         onClick={() => props.deleteRequest(props.id)}
         name="Delete"
