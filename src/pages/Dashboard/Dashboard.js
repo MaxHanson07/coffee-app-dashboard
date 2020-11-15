@@ -8,6 +8,7 @@ import Photos from "../../elements/Photos/Photos";
 import CafeForm from "../../elements/Form/CafeForm";
 import "./Dashboard.scss";
 import Button from "../../components/Button/Button";
+import RoasterForm from "../../elements/RoasterForm/RoasterForm";
 
 function Dashboard() {
   const [placesState, setPlacesState] = useState({
@@ -113,6 +114,8 @@ function Dashboard() {
 
       {/* Displays requests sent in by users on client side */}
       <Requests />
+
+      <RoasterForm />
       {/* Displays photos from Google Places */}
       {placesState.searchResults ? (
         <Photos photos={placesState.searchResults?.photos} />
