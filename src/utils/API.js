@@ -44,6 +44,11 @@ export default {
             data
         );
     },
+    deleteRoaster: function (id) {
+        return axios.delete(
+            process.env.REACT_APP_SERVER_URL + "/api/roasters/" + id
+        );
+    },
     roastersSearch: function (name) {
         return axios.get(
             process.env.REACT_APP_SERVER_URL + "/api/roasters/search/" + name
