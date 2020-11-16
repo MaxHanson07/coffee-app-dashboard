@@ -1,0 +1,23 @@
+@import "../../SCSS/variables.scss";
+
+.Btn {
+  border: none;
+  outline: none;
+  background-color: #05c7f2;
+  height: 25px;
+  width: 75px;
+  border-radius: 20px;
+  margin: 10px 0;
+  font-family: $font-family;
+  color: $black;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $black;
+    color: #fff;
+  }
+  &:active {
+    background-color: #2de398;
+    color: #1c1919;
+  }
+}
