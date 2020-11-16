@@ -2,18 +2,18 @@ import axios from "axios";
 
 export default {
 
-    // Shop API calls
-    getShop: function (id) {
+    // Cafe API calls
+    getCafe: function (id) {
         return axios.get(process.env.REACT_APP_SERVER_URL + "/api/cafes/" + id);
     },
-    updateShop: function (id) {
+    updateCafe: function (id) {
         return axios.put(process.env.REACT_APP_SERVER_URL + "/api/cafes/" + id);
     },
-    deleteShop: function (id) {
+    deleteCafe: function (id) {
         return axios.delete(process.env.REACT_APP_SERVER_URL + "/api/cafes/" + id);
     },
-    postShop: function (shopData) {
-        return axios.post(process.env.REACT_APP_SERVER_URL + "/api/cafes", shopData);
+    postCafe: function (cafeData) {
+        return axios.post(process.env.REACT_APP_SERVER_URL + "/api/cafes", cafeData);
     },
     // Request API calls
     getRequests: function () {
@@ -26,6 +26,9 @@ export default {
     placesSearch: function (name) {
         console.log(name)
         return axios.get(process.env.REACT_APP_SERVER_URL + "/api/places/search/" + name)
+    },
+    cafesSearch: function (name) {
+        console.log(name)
+        return axios.get(process.env.REACT_APP_SERVER_URL + "/api/cafes/search/" + name)
     }
-    
 };

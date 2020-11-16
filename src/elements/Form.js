@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Input, TextArea, FormBtn } from "../components/Form/index.js";
 import API from "../utils/API";
 
-function ShopForm({ id }) {
+function CafeForm({ form, id }) {
 
     // Initial state of user inputted value
-    const [formObject, setFormObject] = useState({})
+    const [formObject, setFormObject] = useState(form)
 
     // Handles updating component state when the user types into the input field
     function handleInputChange(event) {
@@ -20,20 +20,20 @@ function ShopForm({ id }) {
         // TODO - Test
         if (id) {
             console.log('UPDATE')
-            API.updateShop(id)({
+            API.updateCafe(id)({
                 name: formObject.name,
                 lat: formObject.lat,
-                lon: formObject.lon,
+                lng: formObject.lng,
                 formatted_address: formObject.address,
                 website: formObject.website,
                 insta: formObject.insta
             })
         } else {
             console.log('CREATE')
-            API.postShop({
+            API.postCafe({
                 name: formObject.name,
                 lat: formObject.lat,
-                lon: formObject.lon,
+                lng: formObject.lng,
                 formatted_address: formObject.address,
                 website: formObject.website,
                 insta: formObject.insta
@@ -45,26 +45,14 @@ function ShopForm({ id }) {
     function handleDelete(e) {
         e.preventDefault()
         console.log('DELETE', id)
-        API.deleteShop(id)
+        API.deleteCafe(id)
             .catch(err => console.log(err));
     }
 
-    function getCoffeeShopById(id) {
-        // TODO - Replace with actual API call
-        return new Promise(resolve => setTimeout(() => resolve({
-            name: 'Zumba Coffee Roasters'
-        }), 800))
-    }
-
     useEffect(() => {
-        if (id) {
-            getCoffeeShopById(id).then((shopForm) => {
-                setFormObject(shopForm)
-            })
-
-        }
-
-    }, [])
+        console.log(form)
+        setFormObject(form)
+    }, [form])
 
     return (
 
@@ -77,26 +65,20 @@ function ShopForm({ id }) {
             />
             <Input
                 onChange={handleInputChange}
-                name="id"
-                value={formObject['id'] || ''}
-                placeholder="Id (required)"
-            />
-            <Input
-                onChange={handleInputChange}
                 name="lat"
                 value={formObject['lat'] || ''}
                 placeholder="Lat (required)"
             />
             <Input
                 onChange={handleInputChange}
-                name="lon"
+                name="lng"
                 value={formObject['lon'] || ''}
-                placeholder="Lon (required)"
+                placeholder="Lng (required)"
             />
             <Input
                 onChange={handleInputChange}
-                name="address"
-                value={formObject['address'] || ''}
+                name="formatted_address"
+                value={formObject['formatted_address'] || ''}
                 placeholder="Address (required)"
             />
             <Input
@@ -147,4 +129,4 @@ function ShopForm({ id }) {
     );
 }
 
-export default ShopForm;
+export default CafeForm;
