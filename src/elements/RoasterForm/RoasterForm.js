@@ -66,6 +66,20 @@ function RoasterForm() {
         }
     }
 
+    async function handleRoasterDelete() {
+        try {
+            let result = await API.deleteRoaster(roasterFormObject._id)
+            setRoasterFormObject({
+                name: "",
+                instagram_url: "",
+                photos: [],
+                website: ""
+            })
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
     return (
         <div>
             <h2>Add/Edit a roaster:</h2>
@@ -82,6 +96,7 @@ function RoasterForm() {
                 <InputField name="website" placeholder="website" onChange={handleRoasterInputChange} value={roasterFormObject.website} />
                 <button disabled={!roasterFormObject._id}>Update</button>
                 <button disabled={roasterFormObject._id}>Add</button>
+                <button type="button" disabled={!roasterFormObject._id} onClick={handleRoasterDelete}>Delete</button>
             </form>
         </div>
     )
