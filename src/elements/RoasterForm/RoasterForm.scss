@@ -1,1 +1,51 @@
 @import "../../SCSS/variables.scss";
+
+.RoasterForm {
+  grid-row: 3 / span 2;
+  grid-column: 2 / span 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 400px;
+  margin: 0 40px;
+  padding: 20px 0;
+  background-color: #fff;
+  border-radius: 10px;
+  border: none;
+  box-shadow: $box-shadow;
+  font-family: $font-family;
+
+  .RoasterSearch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .RoasterResults {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+  }
+
+  .Response {
+    height: 30px;
+  }
+
+  .AddRoaster {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    .BtnDiv {
+      margin-top: 10px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+    }
+  }
+}
