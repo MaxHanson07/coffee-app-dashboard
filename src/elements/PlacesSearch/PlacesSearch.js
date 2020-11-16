@@ -10,8 +10,8 @@ export default function PlacesSearch(props) {
         type="text"
         name="placesSearchbar"
         placeholder="Search Google Places"
-        value={props.searchBar}
         onChange={props.handleInputChange}
+        value={props.value}
       />
       <Button className="Btn" name="Search" />
     </form>
