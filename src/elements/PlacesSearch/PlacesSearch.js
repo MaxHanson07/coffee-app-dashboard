@@ -15,7 +15,7 @@ export default function PlacesSearch(props) {
         onChange={props.handleInputChange}
         value={props.value}
       />
-      <Button className="Btn" name="Search" disabled={!props.searchBar} />
+      <Button className="Btn" name="Search" disabled={!props.value} />
     </form>
   );
 }
