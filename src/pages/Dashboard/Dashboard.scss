@@ -15,7 +15,7 @@
     grid-column: 3 / span 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     height: 100px;
     margin: 40px 0;
@@ -25,5 +25,6 @@
     box-shadow: $box-shadow;
     font-family: $font-family;
     background-color: #fff;
+    overflow-y: auto;
   }
 }

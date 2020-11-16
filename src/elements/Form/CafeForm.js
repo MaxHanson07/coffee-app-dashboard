@@ -164,10 +164,15 @@ function CafeForm({ form, id }) {
           value={formObject.searchRoaster || ""}
           placeholder="Add a roaster"
         />
-        <Button className="Btn" name="Search" onClick={searchRoasters} />
+        <Button
+          className="Btn"
+          name="Search"
+          disabled={!formObject.searchRoaster}
+          onClick={searchRoasters}
+        />
         {roastersReturned.map((roaster) => (
           <Button
-            className="Btn"
+            className="SearchResultsBtn"
             name={roaster.name}
             onClick={(event) => handleRoasterSelect(roaster, event)}
             key={roaster._id}

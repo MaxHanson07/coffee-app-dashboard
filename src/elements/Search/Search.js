@@ -1,5 +1,6 @@
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import Button from "../../components/Button/Button";
 import InputField from "../../components/InputField/InputField";
 import "./Search.scss";
 
@@ -15,7 +16,14 @@ function Search(props) {
         placeholder="Type the name of a cafe in to begin"
         id="cafe"
       />
-      <Button className="Btn" name="Search" onClick={props.handleFormSubmit} />
+      <button
+        disabled={!props.search}
+        className="SearchBtn"
+        type="submit"
+        onClick={props.handleFormSubmit}
+      >
+        <FontAwesomeIcon icon={faSearch} size="2x" />
+      </button>
     </form>
   );
 }
