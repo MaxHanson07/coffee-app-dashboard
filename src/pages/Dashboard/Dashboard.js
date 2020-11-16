@@ -41,7 +41,7 @@ function Dashboard() {
         lng: cafes[0].geometry.location.lng,
         formatted_address: cafes[0].formatted_address,
         website: cafes[0].website,
-        weekday_text: cafes[0].weekday_text,
+        weekday_text: cafes[0].opening_hours.weekday_text,
         photos: cafes[0].photos,
       };
       setPlacesState({

@@ -28,9 +28,11 @@ function CafeForm({ form, id }) {
         lng: formObject.lng,
         formatted_address: formObject.formatted_address,
         formatted_phone_number: formObject.formatted_phone_number,
+        photos: formObject.photos,
         website: formObject.website,
         instagram_url: formObject.instagram_url,
-        roasters: formObject.custom_data.roasters.map((roaster) => roaster._id),
+        roasters: formObject.roasters.map((roaster) => roaster._id),
+        custom_photos: [formObject.images]
       }).then((res) => console.log(res));
     } else {
       // Creates a new cafe to database
@@ -40,8 +42,11 @@ function CafeForm({ form, id }) {
         lng: formObject.lng,
         formatted_address: formObject.formatted_address,
         formatted_phone_number: formObject.formatted_phone_number,
+        photos: formObject.photos,
         website: formObject.website,
         instagram_url: formObject.instagram_url,
+        roasters: formObject.roasters.map((roaster) => roaster._id),
+        custom_photos: [formObject.images]
       });
     }
     setFormObject({});
@@ -59,7 +64,7 @@ function CafeForm({ form, id }) {
     e.preventDefault();
     console.log(e.target.getAttribute("data-id"));
     let newFormObject = { ...formObject };
-    newFormObject.custom_data.roasters = newFormObject.custom_data.roasters.filter(
+    newFormObject.roasters = newFormObject.roasters.filter(
       (roaster) => roaster._id !== e.target.getAttribute("data-id")
     );
     console.log(newFormObject);
@@ -84,7 +89,11 @@ function CafeForm({ form, id }) {
     event.preventDefault();
     console.log(roaster);
     let newFormObject = { ...formObject };
-    newFormObject.custom_data.roasters.push(roaster);
+    if (newFormObject.roasters) {
+      newFormObject.roasters.push(roaster);
+    } else {
+      newFormObject.roasters = [roaster]
+  }
     setFormObject(newFormObject);
     setRoastersReturned([]);
   }
@@ -148,7 +157,7 @@ function CafeForm({ form, id }) {
           value={formObject["images"] || ""}
           placeholder="Images (required)"
         />
-        {formObject.custom_data?.roasters.map((roaster) => {
+        {formObject.roasters?.map((roaster) => {
           return (
             <div key={roaster._id}>
               <span>{roaster.name}</span>
