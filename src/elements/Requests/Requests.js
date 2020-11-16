@@ -14,7 +14,6 @@ export default function Requests() {
   function loadRequests() {
     API.getRequests()
       .then((res) => {
-        console.log(res.data);
         setRequests(res.data);
       })
       .catch((err) => console.log(err));

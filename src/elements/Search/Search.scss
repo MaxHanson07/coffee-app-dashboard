@@ -16,4 +16,23 @@
     padding-left: 10px;
     font-family: $font-family;
   }
+  .SearchBtn {
+    height: 40px;
+    width: 40px;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    background-color: #05c7f2;
+    margin-left: 10px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $black;
+      color: #fff;
+    }
+    &:active {
+      background-color: #2de398;
+      color: #1c1919;
+    }
+  }
 }

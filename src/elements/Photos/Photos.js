@@ -18,11 +18,12 @@ export default function Photos(props) {
     transformReferences();
   }, [props.photos]);
   return (
-    <div>
-      <h2>Photos:</h2>
+    <div className="Photos">
+      <h4>Photos:</h4>
       {photos?.length > 0
         ? photos.map((photo) => (
             <img
+              className="GooglePhotos"
               key={photo.html_attributions}
               src={photo.photo_url}
               alt="Coffee Shop"

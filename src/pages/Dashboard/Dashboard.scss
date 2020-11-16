@@ -7,6 +7,24 @@
   grid-template-columns:
     1fr minmax(320px, 1fr) minmax(480px, 1fr) minmax(320px, 1fr)
     1fr;
-  grid-template-rows: 80px 600px 300px 100px;
+  grid-template-rows: 80px 240px 260px 200px 1fr 100px;
   background-color: #f7f7fa;
+
+  .SearchResults {
+    grid-row: 2 / span 1;
+    grid-column: 3 / span 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100px;
+    margin: 40px 0;
+    padding: 20px 0;
+    border-radius: 10px;
+    border: none;
+    box-shadow: $box-shadow;
+    font-family: $font-family;
+    background-color: #fff;
+    overflow-y: auto;
+  }
 }

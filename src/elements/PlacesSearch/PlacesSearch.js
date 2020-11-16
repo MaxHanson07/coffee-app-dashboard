@@ -6,6 +6,8 @@ import "./PlacesSearch.scss";
 export default function PlacesSearch(props) {
   return (
     <form className="PlacesSearch" onSubmit={props.handleSubmit}>
+      <h4>Search Google</h4>
+      <div className="Response"></div>
       <InputField
         type="text"
         name="placesSearchbar"
@@ -13,7 +15,7 @@ export default function PlacesSearch(props) {
         onChange={props.handleInputChange}
         value={props.value}
       />
-      <Button className="Btn" name="Search" />
+      <Button className="Btn" name="Search" disabled={!props.searchBar} />
     </form>
   );
 }

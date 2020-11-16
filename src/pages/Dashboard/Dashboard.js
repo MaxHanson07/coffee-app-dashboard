@@ -90,13 +90,20 @@ function Dashboard() {
       />
       {/* Displays search results as a button displaying the cafe name */}
       {/* Click the name of cafe to select that cafe and populate the form with details already stored in database */}
-      {cafes.map((cafe) => (
-        <Button
-          name={cafe.name}
-          onClick={() => handleCafeChange(cafe)}
-          key={cafe._id}
-        />
-      ))}
+      <div className="SearchResults">
+        {cafes.length === 0 ? (
+          <div>Please Search Database for Results</div>
+        ) : (
+          cafes.map((cafe) => (
+            <Button
+              className="SearchResultsBtn"
+              name={cafe.name}
+              onClick={() => handleCafeChange(cafe)}
+              key={cafe._id}
+            />
+          ))
+        )}
+      </div>
 
       {/* Retrieves input from Places searchbar and makes API call to Google Places */}
       <PlacesSearch
