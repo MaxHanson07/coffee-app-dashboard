@@ -71,7 +71,7 @@ function Dashboard() {
 
   async function transformReferences() {
     try {
-      if (!currentCafe.photos[0].photo_url) {
+      if (currentCafe.photos && !currentCafe.photos[0].photo_url) {
         let { data } = await API.addUrls(currentCafe.photos);
         setCurrentCafe({ ...currentCafe, photos: data })
       }      
