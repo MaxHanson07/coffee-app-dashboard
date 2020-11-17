@@ -30,7 +30,7 @@ function CafeForm({ form, id }) {
         photos: formObject.photos,
         website: formObject.website,
         instagram_url: formObject.instagram_url,
-        roasters: formObject.roasters.map((roaster) => roaster._id),
+        roasters: formObject.roasters?.map((roaster) => roaster._id),
         custom_photos: [formObject.images]
       }).then((res) => console.log(res));
     } else {
@@ -45,7 +45,7 @@ function CafeForm({ form, id }) {
         photos: formObject.photos,
         website: formObject.website,
         instagram_url: formObject.instagram_url,
-        roasters: formObject.roasters.map((roaster) => roaster._id),
+        roasters: formObject.roasters?.map((roaster) => roaster._id),
         custom_photos: [formObject.images]
       });
     }
@@ -110,6 +110,27 @@ function CafeForm({ form, id }) {
   useEffect(() => {
     setFormObject(form);
   }, [form]);
+  
+  let cloudinaryWidget = window.cloudinary.createUploadWidget({
+    cloudName: 'dtnhqkg8n', 
+    uploadPreset: 'u3zfjskp',
+    sources: [ 'local', 'url', 'image_search', 'camera']
+  }, (error, result) => { 
+      if (!error && result && result.event === "success") { 
+        console.log('Done! Here is the image info: ', result.info);
+        let photo = {
+          photo_reference: "none",
+          html_attributions: "",
+          photo_url: result.info.url
+        }
+        setFormObject({...formObject, photos: [...formObject.photos, photo]}) 
+      }
+    }
+  )
+
+  function showWidget() {
+    cloudinaryWidget.open()
+  }
 
   return (
     <>
@@ -175,8 +196,9 @@ function CafeForm({ form, id }) {
                 <button onClick={() => deletePhoto(photo.photo_url)}>Delete</button>
               </div>
             )
-          })) : <span>Loading Photos</span>}
+          })) : null}
 
+        <button type="button" onClick={showWidget}>Upload a Photo</button>
 
         {formObject.roasters?.map((roaster) => {
           return (
