@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header/Header";
 import Search from "../../elements/Search/Search";
 import PlacesSearch from "../../elements/PlacesSearch/PlacesSearch";
@@ -15,6 +15,8 @@ function Dashboard() {
     placesSearchbar: "",
     searchResults: {},
   });
+
+  const [noResults, setNoResults] = useState(false)
 
   // Sets cafe state to track which current cafe is selected
   const [cafeSearch, setCafeSearch] = useState("");
@@ -43,7 +45,6 @@ function Dashboard() {
       event.preventDefault();
       let { data } = await API.placesSearch(placesState.placesSearchbar);
       // Creates an object to populate the form with info retrieved from Places
-      console.log(data)
       let cafes = data.map(({ result }) => {
         let cafe = {
           place_id: result.place_id,
@@ -64,8 +65,10 @@ function Dashboard() {
       });
       setCafes(cafes)
       setCurrentCafe("");
+      setNoResults(false)
     } catch (err) {
       console.error(err);
+      setNoResults(true)
     }
   }
 
@@ -75,15 +78,18 @@ function Dashboard() {
       event.preventDefault();
       let { data } = await API.cafesSearch(cafeSearch);
       setCafes(data);
+      setNoResults(false)
       setCafeSearch("");
     } catch (err) {
-      console.error(err);
+      setCafes([])
+      setNoResults(true)
+      setCafeSearch("");
     }
   }
 
   async function transformReferences() {
     try {
-      if (currentCafe.photos && !currentCafe.photos[0].photo_url) {
+      if (currentCafe.photos.length > 0 && !currentCafe.photos?.[0]?.photo_url) {
         let { data } = await API.addUrls(currentCafe.photos);
         setCurrentCafe({ ...currentCafe, photos: data })
       }      
@@ -118,11 +124,16 @@ function Dashboard() {
         search={cafeSearch}
         handleFormSubmit={handleCafesSearchSubmit}
       />
+
       {/* Displays search results as a button displaying the cafe name */}
       {/* Click the name of cafe to select that cafe and populate the form with details already stored in database */}
       <div className="SearchResults">
         {cafes.length === 0 ? (
-          <div>Please Search Database for Results</div>
+          <div>Please Search Database for Results
+            <div className="Response">
+              {noResults === true ? <p>No cafes found</p> : null}
+            </div>
+          </div>
         ) : (
             cafes.map((cafe) => (
               <Button
