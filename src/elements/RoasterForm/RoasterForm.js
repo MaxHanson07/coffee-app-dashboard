@@ -123,20 +123,21 @@ function RoasterForm() {
           value={roasterFormObject.website}
         />
         <div className="BtnDiv">
-          <Button
-            className="Btn"
-            name="Update"
-            disabled={!roasterFormObject._id}
-          />
-          <Button className="Btn" name="Add" disabled={roasterFormObject._id} />
-          <button
-            className="Btn Delete"
-            type="button"
-            disabled={!roasterFormObject._id}
-            onClick={handleRoasterDelete}
-          >
-            Delete
-          </button>
+          {roasterFormObject._id ? (
+            <>
+              <Button name="Update" disabled={!roasterFormObject._id} />
+              <button
+                className="Btn Delete"
+                type="button"
+                disabled={!roasterFormObject._id}
+                onClick={handleRoasterDelete}
+              >
+                Delete
+              </button>
+            </>
+          ) : (
+            <Button name="Add" disabled={roasterFormObject._id} />
+          )}
         </div>
       </form>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "../../components/Header/Header";
 import Search from "../../elements/Search/Search";
 import PlacesSearch from "../../elements/PlacesSearch/PlacesSearch";
@@ -32,23 +32,25 @@ function Dashboard() {
     try {
       event.preventDefault();
       let { data } = await API.placesSearch(placesState.placesSearchbar);
-      let cafes = data.map((datum) => datum.result);
       // Creates an object to populate the form with info retrieved from Places
-      let formattedObject = {
-        place_id: cafes[0].place_id,
-        name: cafes[0].name,
-        lat: cafes[0].geometry.location.lat,
-        lng: cafes[0].geometry.location.lng,
-        formatted_address: cafes[0].formatted_address,
-        website: cafes[0].website,
-        weekday_text: cafes[0].opening_hours.weekday_text,
-        photos: cafes[0].photos,
-      };
+      let cafes = data.map(({ result }) => {
+        let cafe = {
+          place_id: result.place_id,
+          name: result.name,
+          lat: result.geometry.location.lat,
+          lng: result.geometry.location.lng,
+          formatted_address: result.formatted_address,
+          website: result.website,
+          weekday_text: result.opening_hours.weekday_text,
+          photos: result.photos
+        }
+        return cafe
+      });
       setPlacesState({
         ...placesState,
-        searchResults: formattedObject,
         placesSearchbar: "",
       });
+      setCafes(cafes)
       setCurrentCafe("");
     } catch (err) {
       console.error(err);
@@ -67,12 +69,28 @@ function Dashboard() {
     }
   }
 
+  async function transformReferences() {
+    try {
+      if (currentCafe.photos && !currentCafe.photos[0].photo_url) {
+        let { data } = await API.addUrls(currentCafe.photos);
+        setCurrentCafe({ ...currentCafe, photos: data })
+      }      
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   // Retrieves user input in the searchbar
   const handleCafeChange = (cafeForm) => {
+    console.log("Cafe Form: " + cafeForm)
     setCurrentCafe(cafeForm);
     setPlacesState({ ...placesState, searchResults: null });
     setCafes([]);
   };
+
+  useEffect(() => {
+      transformReferences();
+  }, [currentCafe]);
 
   return (
     <div className="Dashboard">
@@ -94,15 +112,15 @@ function Dashboard() {
         {cafes.length === 0 ? (
           <div>Please Search Database for Results</div>
         ) : (
-          cafes.map((cafe) => (
-            <Button
-              className="SearchResultsBtn"
-              name={cafe.name}
-              onClick={() => handleCafeChange(cafe)}
-              key={cafe._id}
-            />
-          ))
-        )}
+            cafes.map((cafe) => (
+              <Button
+                className="SearchResultsBtn"
+                name={cafe.name}
+                onClick={() => handleCafeChange(cafe)}
+                key={cafe.place_id}
+              />
+            ))
+          )}
       </div>
 
       {/* Retrieves input from Places searchbar and makes API call to Google Places */}
@@ -115,7 +133,7 @@ function Dashboard() {
 
       {/* Passes state from either places search or database search to populate the form with known details */}
       <CafeForm
-        form={placesState.searchResults || currentCafe}
+        form={currentCafe}
         id={currentCafe._id}
       />
 

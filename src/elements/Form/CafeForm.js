@@ -23,7 +23,6 @@ function CafeForm({ form, id }) {
     // Id will exist when a cafe is selected after a database search
     if (id) {
       console.log("UPDATE");
-      console.log(formObject);
       API.updateCafe(id, {
         name: formObject.name,
         lat: formObject.lat,
@@ -33,13 +32,19 @@ function CafeForm({ form, id }) {
         photos: formObject.photos,
         website: formObject.website,
         instagram_url: formObject.instagram_url,
+<<<<<<< HEAD
         roasters: formObject.roasters.map((roaster) => roaster._id),
         custom_photos: [formObject.images],
+=======
+        roasters: formObject.roasters?.map((roaster) => roaster._id),
+        custom_photos: [formObject.images]
+>>>>>>> dev
       }).then((res) => console.log(res));
     } else {
       // Creates a new cafe to database
       API.postCafe({
         name: formObject.name,
+        places_id: formObject.places_id,
         lat: formObject.lat,
         lng: formObject.lng,
         formatted_address: formObject.formatted_address,
@@ -47,8 +52,13 @@ function CafeForm({ form, id }) {
         photos: formObject.photos,
         website: formObject.website,
         instagram_url: formObject.instagram_url,
+<<<<<<< HEAD
         roasters: formObject.roasters.map((roaster) => roaster._id),
         custom_photos: [formObject.images],
+=======
+        roasters: formObject.roasters?.map((roaster) => roaster._id),
+        custom_photos: [formObject.images]
+>>>>>>> dev
       });
     }
     setFormObject({});
@@ -94,15 +104,49 @@ function CafeForm({ form, id }) {
     if (newFormObject.roasters) {
       newFormObject.roasters.push(roaster);
     } else {
+<<<<<<< HEAD
       newFormObject.roasters = [roaster];
+=======
+      newFormObject.roasters = [roaster]
+>>>>>>> dev
     }
     setFormObject(newFormObject);
     setRoastersReturned([]);
   }
 
+  function deletePhoto(photo_url) {
+    let newFormObject = { ...formObject };
+    newFormObject.photos = newFormObject.photos.filter(
+      photo => photo.photo_url !== photo_url
+    );
+    console.log(newFormObject);
+    setFormObject(newFormObject);
+  }
+
   useEffect(() => {
     setFormObject(form);
   }, [form]);
+  
+  let cloudinaryWidget = window.cloudinary.createUploadWidget({
+    cloudName: 'dtnhqkg8n', 
+    uploadPreset: 'u3zfjskp',
+    sources: [ 'local', 'url', 'image_search', 'camera']
+  }, (error, result) => { 
+      if (!error && result && result.event === "success") { 
+        console.log('Done! Here is the image info: ', result.info);
+        let photo = {
+          photo_reference: "none",
+          html_attributions: "",
+          photo_url: result.info.url
+        }
+        setFormObject({...formObject, photos: [...formObject.photos, photo]}) 
+      }
+    }
+  )
+
+  function showWidget() {
+    cloudinaryWidget.open()
+  }
 
   return (
     <>
@@ -159,6 +203,19 @@ function CafeForm({ form, id }) {
           value={formObject["images"] || ""}
           placeholder="Images (required)"
         />
+
+        {formObject.photos?.[0]?.photo_url ? (
+          formObject.photos?.map((photo) => {
+            return (
+              <div key={photo.photo_url}>
+                <img src={photo.photo_url} alt="cafe" />
+                <button onClick={() => deletePhoto(photo.photo_url)}>Delete</button>
+              </div>
+            )
+          })) : null}
+
+        <button type="button" onClick={showWidget}>Upload a Photo</button>
+
         {formObject.roasters?.map((roaster) => {
           return (
             <div key={roaster._id}>
@@ -197,6 +254,7 @@ function CafeForm({ form, id }) {
         {/* Buttons are disabled depending on if an existing cafe is selected */}
 
         <div className="BtnDiv">
+<<<<<<< HEAD
           <Button
             className="Btn"
             name="Add"
@@ -215,6 +273,32 @@ function CafeForm({ form, id }) {
             onClick={handleDelete}
             disabled={!id}
           />
+=======
+          {id ? (
+            <>
+              <Button
+                className="Btn"
+                name="Update"
+                onClick={handleFormSubmit}
+                disabled={!id}
+              />
+              <Button
+                className="Btn"
+                name="Delete"
+                onClick={handleDelete}
+                disabled={!id}
+              />
+            </>
+          ) : (
+              <Button
+                className="Btn"
+                name="Add"
+                onClick={handleFormSubmit}
+                disabled={id}
+              />
+            )
+          }
+>>>>>>> dev
         </div>
       </form>
     </>
