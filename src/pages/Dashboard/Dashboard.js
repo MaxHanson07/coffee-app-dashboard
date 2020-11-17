@@ -19,7 +19,17 @@ function Dashboard() {
   // Sets cafe state to track which current cafe is selected
   const [cafeSearch, setCafeSearch] = useState("");
   const [cafes, setCafes] = useState([]);
-  const [currentCafe, setCurrentCafe] = useState({});
+  const [currentCafe, setCurrentCafe] = useState({
+          place_id: "",
+          name: "",
+          lat: "",
+          lng: "",
+          formatted_address: "",
+          website: "",
+          weekday_text: [],
+          photos: [],
+          formatted_phone_number: ""
+  });
 
   // Retrieves user input in places search
   function handlePlacesSearchInputChange(event) {
@@ -33,6 +43,7 @@ function Dashboard() {
       event.preventDefault();
       let { data } = await API.placesSearch(placesState.placesSearchbar);
       // Creates an object to populate the form with info retrieved from Places
+      console.log(data)
       let cafes = data.map(({ result }) => {
         let cafe = {
           place_id: result.place_id,
@@ -42,7 +53,8 @@ function Dashboard() {
           formatted_address: result.formatted_address,
           website: result.website,
           weekday_text: result.opening_hours.weekday_text,
-          photos: result.photos
+          photos: result.photos,
+          formatted_phone_number: result.formatted_phone_number
         }
         return cafe
       });
