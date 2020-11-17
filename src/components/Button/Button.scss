@@ -39,3 +39,20 @@
     color: #2de398;
   }
 }
+
+.Delete {
+  background-color: #e30e27 !important;
+}
+
+.X {
+  margin-left: 4px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  &:hover {
+    color: #05c7f2;
+  }
+  &:active {
+    color: #2de398;
+  }
+}

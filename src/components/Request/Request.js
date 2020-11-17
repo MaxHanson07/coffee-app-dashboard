@@ -1,9 +1,21 @@
 import React from "react";
-import Button from "../Button/Button";
+import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import "./Request.scss";
 export default function RequestCard(props) {
   return (
     <div className="RequestCard">
+      <div className="BtnDiv">
+        <button
+          className="X"
+          style={{ margin: "auto" }}
+          onClick={() => props.deleteRequest(props.id)}
+          name="Delete"
+        >
+          <FontAwesomeIcon icon={faTimesCircle} size="1x" />
+        </button>
+      </div>
       <div className="RequestItem">
         <h5>email:</h5>
         <p> {props.email}</p>
@@ -20,12 +32,6 @@ export default function RequestCard(props) {
         <h5>notes:</h5>
         <p> {props.notes}</p>
       </div>
-      <Button
-        className="Btn"
-        style={{ margin: "auto" }}
-        onClick={() => props.deleteRequest(props.id)}
-        name="Delete"
-      />
     </div>
   );
 }

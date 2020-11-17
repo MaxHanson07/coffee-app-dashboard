@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../../components/Button/Button.js";
 import InputField from "../../components/InputField/InputField.js";
 import API from "../../utils/API";
@@ -32,7 +34,7 @@ function CafeForm({ form, id }) {
         website: formObject.website,
         instagram_url: formObject.instagram_url,
         roasters: formObject.roasters.map((roaster) => roaster._id),
-        custom_photos: [formObject.images]
+        custom_photos: [formObject.images],
       }).then((res) => console.log(res));
     } else {
       // Creates a new cafe to database
@@ -46,7 +48,7 @@ function CafeForm({ form, id }) {
         website: formObject.website,
         instagram_url: formObject.instagram_url,
         roasters: formObject.roasters.map((roaster) => roaster._id),
-        custom_photos: [formObject.images]
+        custom_photos: [formObject.images],
       });
     }
     setFormObject({});
@@ -92,8 +94,8 @@ function CafeForm({ form, id }) {
     if (newFormObject.roasters) {
       newFormObject.roasters.push(roaster);
     } else {
-      newFormObject.roasters = [roaster]
-  }
+      newFormObject.roasters = [roaster];
+    }
     setFormObject(newFormObject);
     setRoastersReturned([]);
   }
@@ -161,8 +163,12 @@ function CafeForm({ form, id }) {
           return (
             <div key={roaster._id}>
               <span>{roaster.name}</span>
-              <button onClick={removeRoaster} data-id={roaster._id}>
-                Remove Roaster
+              <button
+                className="X"
+                onClick={removeRoaster}
+                data-id={roaster._id}
+              >
+                <FontAwesomeIcon icon={faTimesCircle} size="1x" />
               </button>
             </div>
           );
@@ -204,7 +210,7 @@ function CafeForm({ form, id }) {
             disabled={!id}
           />
           <Button
-            className="Btn"
+            className="Btn Delete"
             name="Delete"
             onClick={handleDelete}
             disabled={!id}
