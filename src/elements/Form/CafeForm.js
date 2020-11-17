@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../../components/Button/Button.js";
 import InputField from "../../components/InputField/InputField.js";
 import API from "../../utils/API";
@@ -31,7 +33,7 @@ function CafeForm({ form, id }) {
         website: formObject.website,
         instagram_url: formObject.instagram_url,
         roasters: formObject.roasters?.map((roaster) => roaster._id),
-        custom_photos: [formObject.images]
+        custom_photos: [formObject.images],
       }).then((res) => console.log(res));
     } else {
       // Creates a new cafe to database
@@ -46,7 +48,7 @@ function CafeForm({ form, id }) {
         website: formObject.website,
         instagram_url: formObject.instagram_url,
         roasters: formObject.roasters?.map((roaster) => roaster._id),
-        custom_photos: [formObject.images]
+        custom_photos: [formObject.images],
       });
     }
     setFormObject({});
@@ -92,7 +94,7 @@ function CafeForm({ form, id }) {
     if (newFormObject.roasters) {
       newFormObject.roasters.push(roaster);
     } else {
-      newFormObject.roasters = [roaster]
+      newFormObject.roasters = [roaster];
     }
     setFormObject(newFormObject);
     setRoastersReturned([]);
@@ -101,7 +103,7 @@ function CafeForm({ form, id }) {
   function deletePhoto(photo_url) {
     let newFormObject = { ...formObject };
     newFormObject.photos = newFormObject.photos.filter(
-      photo => photo.photo_url !== photo_url
+      (photo) => photo.photo_url !== photo_url
     );
     console.log(newFormObject);
     setFormObject(newFormObject);
@@ -110,26 +112,28 @@ function CafeForm({ form, id }) {
   useEffect(() => {
     setFormObject(form);
   }, [form]);
-  
-  let cloudinaryWidget = window.cloudinary.createUploadWidget({
-    cloudName: 'dtnhqkg8n', 
-    uploadPreset: 'u3zfjskp',
-    sources: [ 'local', 'url', 'image_search', 'camera']
-  }, (error, result) => { 
-      if (!error && result && result.event === "success") { 
-        console.log('Done! Here is the image info: ', result.info);
+
+  let cloudinaryWidget = window.cloudinary.createUploadWidget(
+    {
+      cloudName: "dtnhqkg8n",
+      uploadPreset: "u3zfjskp",
+      sources: ["local", "url", "image_search", "camera"],
+    },
+    (error, result) => {
+      if (!error && result && result.event === "success") {
+        console.log("Done! Here is the image info: ", result.info);
         let photo = {
           photo_reference: "none",
           html_attributions: "",
-          photo_url: result.info.url
-        }
-        setFormObject({...formObject, photos: [...formObject.photos, photo]}) 
+          photo_url: result.info.url,
+        };
+        setFormObject({ ...formObject, photos: [...formObject.photos, photo] });
       }
     }
-  )
+  );
 
   function showWidget() {
-    cloudinaryWidget.open()
+    cloudinaryWidget.open();
   }
 
   return (
@@ -188,24 +192,33 @@ function CafeForm({ form, id }) {
           placeholder="Images (required)"
         />
 
-        {formObject.photos?.[0]?.photo_url ? (
-          formObject.photos?.map((photo) => {
-            return (
-              <div key={photo.photo_url}>
-                <img src={photo.photo_url} alt="cafe" />
-                <button onClick={() => deletePhoto(photo.photo_url)}>Delete</button>
-              </div>
-            )
-          })) : null}
+        {formObject.photos?.[0]?.photo_url
+          ? formObject.photos?.map((photo) => {
+              return (
+                <div key={photo.photo_url}>
+                  <img src={photo.photo_url} alt="cafe" />
+                  <button onClick={() => deletePhoto(photo.photo_url)}>
+                    Delete
+                  </button>
+                </div>
+              );
+            })
+          : null}
 
-        <button type="button" onClick={showWidget}>Upload a Photo</button>
+        <button type="button" onClick={showWidget}>
+          Upload a Photo
+        </button>
 
         {formObject.roasters?.map((roaster) => {
           return (
             <div key={roaster._id}>
               <span>{roaster.name}</span>
-              <button onClick={removeRoaster} data-id={roaster._id}>
-                Remove Roaster
+              <button
+                className="X"
+                onClick={removeRoaster}
+                data-id={roaster._id}
+              >
+                <FontAwesomeIcon icon={faTimesCircle} size="1x" />
               </button>
             </div>
           );
@@ -250,14 +263,13 @@ function CafeForm({ form, id }) {
               />
             </>
           ) : (
-              <Button
-                className="Btn"
-                name="Add"
-                onClick={handleFormSubmit}
-                disabled={id}
-              />
-            )
-          }
+            <Button
+              className="Btn"
+              name="Add"
+              onClick={handleFormSubmit}
+              disabled={id}
+            />
+          )}
         </div>
       </form>
     </>

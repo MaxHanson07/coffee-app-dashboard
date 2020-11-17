@@ -9,6 +9,13 @@
   display: flex;
   flex-direction: column;
 
+  .BtnDiv {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-left: 200px;
+    margin-top: 4px;
+  }
   .RequestItem {
     display: flex;
     align-items: center;
