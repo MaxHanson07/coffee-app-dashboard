@@ -22,7 +22,6 @@ function CafeForm({ form, id }) {
     // If an id exists run an update, if no id run a create
     // Id will exist when a cafe is selected after a database search
     if (id) {
-      console.log("UPDATE");
       API.updateCafe(id, {
         name: formObject.name,
         lat: formObject.lat,
@@ -34,7 +33,7 @@ function CafeForm({ form, id }) {
         instagram_url: formObject.instagram_url,
         roasters: formObject.roasters?.map((roaster) => roaster._id),
         custom_photos: [formObject.images],
-      }).then((res) => console.log(res));
+      });
     } else {
       // Creates a new cafe to database
       API.postCafe({
@@ -57,19 +56,16 @@ function CafeForm({ form, id }) {
   // Deletes cafes from database
   function handleDelete(e) {
     e.preventDefault();
-    API.deleteCafe(id).catch((err) => console.log(err));
+    API.deleteCafe(id).catch((err) => console.error(err));
     setFormObject({});
   }
 
   // Removes roaster from cafe
-  function removeRoaster(e) {
-    e.preventDefault();
-    console.log(e.target.getAttribute("data-id"));
+  function removeRoaster(id) {
     let newFormObject = { ...formObject };
     newFormObject.roasters = newFormObject.roasters.filter(
-      (roaster) => roaster._id !== e.target.getAttribute("data-id")
+      (roaster) => roaster._id !== id
     );
-    console.log(newFormObject);
     setFormObject(newFormObject);
   }
 
@@ -79,8 +75,8 @@ function CafeForm({ form, id }) {
     try {
       let roasterName = formObject.searchRoaster;
       let { data } = await API.roastersSearch(roasterName);
-      console.log(data);
       setRoastersReturned(data);
+      setFormObject({...formObject, searchRoaster: ""})
     } catch (err) {
       console.error(err);
     }
@@ -89,7 +85,6 @@ function CafeForm({ form, id }) {
   // Adds selected roaster to state
   function handleRoasterSelect(roaster, event) {
     event.preventDefault();
-    console.log(roaster);
     let newFormObject = { ...formObject };
     if (newFormObject.roasters) {
       newFormObject.roasters.push(roaster);
@@ -105,7 +100,6 @@ function CafeForm({ form, id }) {
     newFormObject.photos = newFormObject.photos.filter(
       (photo) => photo.photo_url !== photo_url
     );
-    console.log(newFormObject);
     setFormObject(newFormObject);
   }
 
@@ -121,7 +115,6 @@ function CafeForm({ form, id }) {
     },
     (error, result) => {
       if (!error && result && result.event === "success") {
-        console.log("Done! Here is the image info: ", result.info);
         let photo = {
           photo_reference: "none",
           html_attributions: "",
@@ -184,13 +177,6 @@ function CafeForm({ form, id }) {
           value={formObject.instagram_url || ""}
           placeholder="Insta (required)"
         />
-        {/* TODO - Images input goes here */}
-        <InputField
-          onChange={handleInputChange}
-          name="images"
-          value={formObject["images"] || ""}
-          placeholder="Images (required)"
-        />
 
         {formObject.photos?.[0]?.photo_url
           ? formObject.photos?.map((photo) => {
@@ -215,8 +201,8 @@ function CafeForm({ form, id }) {
               <span>{roaster.name}</span>
               <button
                 className="X"
-                onClick={removeRoaster}
-                data-id={roaster._id}
+                onClick={()=>removeRoaster(roaster._id)}
+                type="button"
               >
                 <FontAwesomeIcon icon={faTimesCircle} size="1x" />
               </button>
