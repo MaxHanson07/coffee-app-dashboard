@@ -22,7 +22,6 @@ function CafeForm({ form, id }) {
     // If an id exists run an update, if no id run a create
     // Id will exist when a cafe is selected after a database search
     if (id) {
-      console.log("UPDATE");
       API.updateCafe(id, {
         name: formObject.name,
         lat: formObject.lat,
@@ -79,7 +78,6 @@ function CafeForm({ form, id }) {
     try {
       let roasterName = formObject.searchRoaster;
       let { data } = await API.roastersSearch(roasterName);
-      console.log(data);
       setRoastersReturned(data);
     } catch (err) {
       console.error(err);
@@ -89,7 +87,6 @@ function CafeForm({ form, id }) {
   // Adds selected roaster to state
   function handleRoasterSelect(roaster, event) {
     event.preventDefault();
-    console.log(roaster);
     let newFormObject = { ...formObject };
     if (newFormObject.roasters) {
       newFormObject.roasters.push(roaster);
@@ -105,7 +102,6 @@ function CafeForm({ form, id }) {
     newFormObject.photos = newFormObject.photos.filter(
       (photo) => photo.photo_url !== photo_url
     );
-    console.log(newFormObject);
     setFormObject(newFormObject);
   }
 
@@ -197,16 +193,18 @@ function CafeForm({ form, id }) {
               return (
                 <div key={photo.photo_url}>
                   <img src={photo.photo_url} alt="cafe" />
-                  <button onClick={() => deletePhoto(photo.photo_url)}>
-                    Delete
-                  </button>
+                  <Button
+                    className="Btn "
+                    name="Delete"
+                    onClick={() => deletePhoto(photo.photo_url)}
+                  />
                 </div>
               );
             })
           : null}
 
-        <button type="button" onClick={showWidget}>
-          Upload a Photo
+        <button className="Btn" type="button" onClick={showWidget}>
+          Upload
         </button>
 
         {formObject.roasters?.map((roaster) => {

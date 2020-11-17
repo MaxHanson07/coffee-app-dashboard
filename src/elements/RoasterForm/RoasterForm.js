@@ -125,7 +125,11 @@ function RoasterForm() {
         <div className="BtnDiv">
           {roasterFormObject._id ? (
             <>
-              <Button name="Update" disabled={!roasterFormObject._id} />
+              <Button
+                className="Btn"
+                name="Update"
+                disabled={!roasterFormObject._id}
+              />
               <button
                 className="Btn Delete"
                 type="button"
@@ -136,7 +140,11 @@ function RoasterForm() {
               </button>
             </>
           ) : (
-            <Button name="Add" disabled={roasterFormObject._id} />
+            <Button
+              className="Btn"
+              name="Add"
+              disabled={roasterFormObject._id}
+            />
           )}
         </div>
       </form>
