@@ -191,7 +191,7 @@ function CafeForm({ form, id }) {
             })
           : null}
 
-        <button type="button" onClick={showWidget}>
+        <button type="button" className="Btn" onClick={showWidget}>
           Upload a Photo
         </button>
 
