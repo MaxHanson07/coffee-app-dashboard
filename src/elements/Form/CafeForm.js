@@ -33,7 +33,7 @@ function CafeForm({ form, id }) {
         instagram_url: formObject.instagram_url,
         roasters: formObject.roasters?.map((roaster) => roaster._id),
         custom_photos: [formObject.images],
-      }).then((res) => console.log(res));
+      });
     } else {
       // Creates a new cafe to database
       API.postCafe({
@@ -56,19 +56,16 @@ function CafeForm({ form, id }) {
   // Deletes cafes from database
   function handleDelete(e) {
     e.preventDefault();
-    API.deleteCafe(id).catch((err) => console.log(err));
+    API.deleteCafe(id).catch((err) => console.error(err));
     setFormObject({});
   }
 
   // Removes roaster from cafe
-  function removeRoaster(e) {
-    e.preventDefault();
-    console.log(e.target.getAttribute("data-id"));
+  function removeRoaster(id) {
     let newFormObject = { ...formObject };
     newFormObject.roasters = newFormObject.roasters.filter(
-      (roaster) => roaster._id !== e.target.getAttribute("data-id")
+      (roaster) => roaster._id !== id
     );
-    console.log(newFormObject);
     setFormObject(newFormObject);
   }
 
@@ -79,6 +76,7 @@ function CafeForm({ form, id }) {
       let roasterName = formObject.searchRoaster;
       let { data } = await API.roastersSearch(roasterName);
       setRoastersReturned(data);
+      setFormObject({ ...formObject, searchRoaster: "" });
     } catch (err) {
       console.error(err);
     }
@@ -117,7 +115,6 @@ function CafeForm({ form, id }) {
     },
     (error, result) => {
       if (!error && result && result.event === "success") {
-        console.log("Done! Here is the image info: ", result.info);
         let photo = {
           photo_reference: "none",
           html_attributions: "",
@@ -180,13 +177,6 @@ function CafeForm({ form, id }) {
           value={formObject.instagram_url || ""}
           placeholder="Insta (required)"
         />
-        {/* TODO - Images input goes here */}
-        <InputField
-          onChange={handleInputChange}
-          name="images"
-          value={formObject["images"] || ""}
-          placeholder="Images (required)"
-        />
 
         {formObject.photos?.[0]?.photo_url
           ? formObject.photos?.map((photo) => {
@@ -203,8 +193,8 @@ function CafeForm({ form, id }) {
             })
           : null}
 
-        <button className="Btn" type="button" onClick={showWidget}>
-          Upload
+        <button type="button" className="Btn" onClick={showWidget}>
+          Upload a Photo
         </button>
 
         {formObject.roasters?.map((roaster) => {
@@ -213,8 +203,8 @@ function CafeForm({ form, id }) {
               <span>{roaster.name}</span>
               <button
                 className="X"
-                onClick={removeRoaster}
-                data-id={roaster._id}
+                onClick={() => removeRoaster(roaster._id)}
+                type="button"
               >
                 <FontAwesomeIcon icon={faTimesCircle} size="1x" />
               </button>
