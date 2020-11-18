@@ -5,16 +5,19 @@ import Button from "../../components/Button/Button.js";
 import InputField from "../../components/InputField/InputField.js";
 import API from "../../utils/API";
 import "./CafeForm.scss";
+import FeaturedCheck from "../../components/FeaturedCheck/FeaturedCheck.js";
 
 function CafeForm({ form, id }) {
   // Initial state of user inputted value
   const [formObject, setFormObject] = useState(form);
   const [roastersReturned, setRoastersReturned] = useState([]);
+  const [isFeatured, setIsFeatured] = useState(form.is_featured);
 
   // Handles updating component state when the user types into the input field
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
+    setIsFeatured(true);
   }
 
   function handleFormSubmit(e) {
@@ -33,6 +36,7 @@ function CafeForm({ form, id }) {
         instagram_url: formObject.instagram_url,
         roasters: formObject.roasters?.map((roaster) => roaster._id),
         custom_photos: [formObject.images],
+        is_featured: isFeatured,
       });
     } else {
       // Creates a new cafe to database
@@ -48,8 +52,10 @@ function CafeForm({ form, id }) {
         instagram_url: formObject.instagram_url,
         roasters: formObject.roasters?.map((roaster) => roaster._id),
         custom_photos: [formObject.images],
+        is_featured: isFeatured,
       });
     }
+    setIsFeatured(false);
     setFormObject({});
   }
 
@@ -105,6 +111,7 @@ function CafeForm({ form, id }) {
 
   useEffect(() => {
     setFormObject(form);
+    setIsFeatured(form.is_featured);
   }, [form]);
 
   let cloudinaryWidget = window.cloudinary.createUploadWidget(
@@ -178,23 +185,36 @@ function CafeForm({ form, id }) {
           placeholder="Insta (required)"
         />
 
-        {formObject.photos?.[0]?.photo_url
-          ? formObject.photos?.map((photo) => {
-              return (
-                <div key={photo.photo_url}>
-                  <img src={photo.photo_url} alt="cafe" />
-                  <Button
-                    className="Btn "
-                    name="Delete"
-                    onClick={() => deletePhoto(photo.photo_url)}
-                  />
-                </div>
-              );
-            })
-          : null}
+        <FeaturedCheck
+          onChange={handleInputChange}
+          checked={isFeatured === true ? true : false}
+          name="featured"
+          value={isFeatured || false}
+        />
+
+        <div className="Photos">
+          {formObject.photos?.[0]?.photo_url
+            ? formObject.photos?.map((photo) => {
+                return (
+                  <div key={photo.photo_url}>
+                    <img
+                      className="GooglePhotos"
+                      src={photo.photo_url}
+                      alt="cafe"
+                    />
+                    <Button
+                      className="Btn "
+                      name="Delete"
+                      onClick={() => deletePhoto(photo.photo_url)}
+                    />
+                  </div>
+                );
+              })
+            : null}
+        </div>
 
         <button type="button" className="Btn" onClick={showWidget}>
-          Upload a Photo
+          Upload
         </button>
 
         {formObject.roasters?.map((roaster) => {
