@@ -4,7 +4,6 @@ import Search from "../../elements/Search/Search";
 import PlacesSearch from "../../elements/PlacesSearch/PlacesSearch";
 import API from "../../utils/API";
 import Requests from "../../elements/Requests/Requests";
-import Photos from "../../elements/Photos/Photos";
 import CafeForm from "../../elements/Form/CafeForm";
 import "./Dashboard.scss";
 import Button from "../../components/Button/Button";
@@ -16,21 +15,22 @@ function Dashboard() {
     searchResults: {},
   });
 
-  const [noResults, setNoResults] = useState(false)
+  const [noResults, setNoResults] = useState(false);
 
   // Sets cafe state to track which current cafe is selected
   const [cafeSearch, setCafeSearch] = useState("");
   const [cafes, setCafes] = useState([]);
   const [currentCafe, setCurrentCafe] = useState({
-          place_id: "",
-          name: "",
-          lat: "",
-          lng: "",
-          formatted_address: "",
-          website: "",
-          weekday_text: [],
-          photos: [],
-          formatted_phone_number: ""
+    place_id: "",
+    name: "",
+    lat: "",
+    lng: "",
+    formatted_address: "",
+    website: "",
+    weekday_text: [],
+    photos: [],
+    formatted_phone_number: "",
+    is_featured: false,
   });
 
   // Retrieves user input in places search
@@ -47,6 +47,7 @@ function Dashboard() {
       // Creates an object to populate the form with info retrieved from Places
       let cafes = data.map(({ result }) => {
         let cafe = {
+          key: result.place_id,
           place_id: result.place_id,
           name: result.name,
           lat: result.geometry.location.lat,
@@ -55,20 +56,20 @@ function Dashboard() {
           website: result.website,
           weekday_text: result.opening_hours.weekday_text,
           photos: result.photos,
-          formatted_phone_number: result.formatted_phone_number
-        }
-        return cafe
+          formatted_phone_number: result.formatted_phone_number,
+        };
+        return cafe;
       });
       setPlacesState({
         ...placesState,
         placesSearchbar: "",
       });
-      setCafes(cafes)
+      setCafes(cafes);
       setCurrentCafe("");
-      setNoResults(false)
+      setNoResults(false);
     } catch (err) {
       console.error(err);
-      setNoResults(true)
+      setNoResults(true);
     }
   }
 
@@ -78,21 +79,24 @@ function Dashboard() {
       event.preventDefault();
       let { data } = await API.cafesSearch(cafeSearch);
       setCafes(data);
-      setNoResults(false)
+      setNoResults(false);
       setCafeSearch("");
     } catch (err) {
-      setCafes([])
-      setNoResults(true)
+      setCafes([]);
+      setNoResults(true);
       setCafeSearch("");
     }
   }
 
   async function transformReferences() {
     try {
-      if (currentCafe.photos.length > 0 && !currentCafe.photos?.[0]?.photo_url) {
+      if (
+        currentCafe.photos.length > 0 &&
+        !currentCafe.photos?.[0]?.photo_url
+      ) {
         let { data } = await API.addUrls(currentCafe.photos);
-        setCurrentCafe({ ...currentCafe, photos: data })
-      }      
+        setCurrentCafe({ ...currentCafe, photos: data });
+      }
     } catch (err) {
       console.error(err);
     }
@@ -100,14 +104,13 @@ function Dashboard() {
 
   // Retrieves user input in the searchbar
   const handleCafeChange = (cafeForm) => {
-    console.log("Cafe Form: " + cafeForm)
     setCurrentCafe(cafeForm);
     setPlacesState({ ...placesState, searchResults: null });
     setCafes([]);
   };
 
   useEffect(() => {
-      transformReferences();
+    transformReferences();
   }, [currentCafe]);
 
   return (
@@ -129,21 +132,22 @@ function Dashboard() {
       {/* Click the name of cafe to select that cafe and populate the form with details already stored in database */}
       <div className="SearchResults">
         {cafes.length === 0 ? (
-          <div>Please Search Database for Results
+          <div>
+            Please Search Database for Results
             <div className="Response">
               {noResults === true ? <p>No cafes found</p> : null}
             </div>
           </div>
         ) : (
-            cafes.map((cafe) => (
-              <Button
-                className="SearchResultsBtn"
-                name={cafe.name}
-                onClick={() => handleCafeChange(cafe)}
-                key={cafe.place_id}
-              />
-            ))
-          )}
+          cafes.map((cafe) => (
+            <Button
+              className="SearchResultsBtn"
+              name={cafe.name}
+              onClick={() => handleCafeChange(cafe)}
+              key={cafe._id}
+            />
+          ))
+        )}
       </div>
 
       {/* Retrieves input from Places searchbar and makes API call to Google Places */}
@@ -155,19 +159,12 @@ function Dashboard() {
       />
 
       {/* Passes state from either places search or database search to populate the form with known details */}
-      <CafeForm
-        form={currentCafe}
-        id={currentCafe._id}
-      />
+      <CafeForm form={currentCafe} id={currentCafe._id} />
 
       {/* Displays requests sent in by users on client side */}
       <Requests />
 
       <RoasterForm />
-      {/* Displays photos from Google Places */}
-      {placesState.searchResults ? (
-        <Photos photos={placesState.searchResults?.photos} />
-      ) : null}
     </div>
   );
 }

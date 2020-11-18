@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
+import "./FeaturedCheck.scss";
 
-export default function FeaturedCheck() {
-    return (
-        <div>
-            <input type="checkbox" id="featured" name="featured"
-                   checked/>
-            <label for="featured">Featured</label>
-        </div>
-    )
+export default function FeaturedCheck(props) {
+  return (
+    <div className="Checkbox">
+      <label htmlFor={props.name}>Featured</label>
+      <input type="checkbox" id="featured" {...props} />
+    </div>
+  );
 }

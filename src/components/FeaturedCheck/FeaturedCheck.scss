@@ -1,7 +1,8 @@
-label {
-    font: 1rem 'Fira Sans', sans-serif;
-}
-
-input {
-    margin: .4rem;
+.Checkbox {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  #featured {
+    margin-left: 10px;
+  }
 }

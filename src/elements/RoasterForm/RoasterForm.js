@@ -12,9 +12,9 @@ function RoasterForm() {
     website: "",
   });
 
-  const [noResults, setNoResults] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [fail, setFail] = useState(false)
+  const [noResults, setNoResults] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [fail, setFail] = useState(false);
 
   // Sets roaster state to track which current cafe is selected
   const [roasterSearch, setRoasterSearch] = useState("");
@@ -30,7 +30,7 @@ function RoasterForm() {
       } else {
         method = "postRoaster";
       }
-      await API[method](roasterFormObject._id, roasterFormObject)
+      await API[method](roasterFormObject._id, roasterFormObject);
       setRoasterFormObject({
         name: "",
         instagram_url: "",
@@ -38,13 +38,12 @@ function RoasterForm() {
         website: "",
       });
       setSuccess(true);
-      
+
       setTimeout(function () {
         setSuccess(false);
       }, 1000);
-
     } catch (err) {
-      setFail(true)
+      setFail(true);
     }
   }
 
@@ -71,9 +70,9 @@ function RoasterForm() {
       let { data } = await API.roastersSearch(roasterSearch);
       setRoasters(data);
       setRoasterSearch("");
-      setNoResults(false)
+      setNoResults(false);
     } catch (err) {
-      setNoResults(true)
+      setNoResults(true);
     }
   }
 
@@ -91,19 +90,15 @@ function RoasterForm() {
     }
   }
 
-  
-
   return (
     <div className="RoasterForm">
       <h4>Add/Edit a roaster:</h4>
       <div className="Response">
-        {noResults === true ? (
-          <p>No roasters found!</p>
-        ): null}
+        {noResults === true ? <p>No roasters found!</p> : null}
         <div className="Success">
-        {success === true ? <p>Request Successful</p> : null}
+          {success === true ? <p>Request Successful</p> : null}
         </div>
-        {fail === true ? <p>Form submit failed</p>: null}
+        {fail === true ? <p>Form submit failed</p> : null}
       </div>
       <form className="RoasterSearch" onSubmit={handleRoasterSearchSubmit}>
         <InputField
@@ -148,7 +143,11 @@ function RoasterForm() {
         <div className="BtnDiv">
           {roasterFormObject._id ? (
             <>
-              <Button name="Update" className="Btn" disabled={!roasterFormObject._id} />
+              <Button
+                name="Update"
+                className="Btn"
+                disabled={!roasterFormObject._id}
+              />
               <button
                 className="Btn Delete"
                 type="button"
@@ -159,7 +158,11 @@ function RoasterForm() {
               </button>
             </>
           ) : (
-            <Button name="Add" className="Btn" disabled={roasterFormObject._id} />
+            <Button
+              name="Add"
+              className="Btn"
+              disabled={roasterFormObject._id}
+            />
           )}
         </div>
       </form>
