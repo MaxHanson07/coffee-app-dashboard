@@ -29,7 +29,7 @@ export default function Requests() {
   return (
     <div className="Requests">
       <h4>Incoming Requests</h4>
-      {!requests
+      {requests.length === 0
         ? null
         : requests.map((item) => {
             return (
