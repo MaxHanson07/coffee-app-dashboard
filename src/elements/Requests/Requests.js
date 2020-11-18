@@ -4,10 +4,9 @@ import API from "../../utils/API";
 import "./Requests.scss";
 
 export default function Requests() {
-  const [requests, setRequests] = useState(null);
+  const [requests, setRequests] = useState([]);
 
   useEffect(() => {
-    setRequests([]);
     loadRequests();
   }, []);
 
@@ -19,7 +18,6 @@ export default function Requests() {
       })
       .catch((err) => console.log(err));
   }
-
   // Deletes request by the id of the request in which the delete button is selected
   function deleteRequest(id) {
     API.deleteRequest(id)
@@ -30,22 +28,20 @@ export default function Requests() {
   return (
     <div className="Requests">
       <h4>Incoming Requests</h4>
-      {!requests
-        ? null
-        : requests.map((item) => {
-            return (
-              <RequestCard
-                key={item._id}
-                id={item._id}
-                username={item.username}
-                email={item.email}
-                cafe_name={item.cafe_name}
-                cafe_address={item.cafe_address}
-                notes={item.notes}
-                deleteRequest={deleteRequest}
-              />
-            );
-          })}
+      {requests.map((item) => {
+        return (
+          <RequestCard
+            key={item._id}
+            id={item._id}
+            username={item.username}
+            email={item.email}
+            cafe_name={item.cafe_name}
+            cafe_address={item.cafe_address}
+            notes={item.notes}
+            deleteRequest={deleteRequest}
+          />
+        );
+      })}
     </div>
   );
 }
