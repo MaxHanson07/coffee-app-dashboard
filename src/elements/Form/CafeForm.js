@@ -53,7 +53,9 @@ function CafeForm({ form, id }) {
         roasters: formObject.roasters?.map((roaster) => roaster._id),
         custom_photos: [formObject.images],
         is_featured: isFeatured,
-      });
+      }).then((res) => console.log(res))
+      .fail((err) => console.log("Error: Could not create new cafe."));
+      };
     }
     setIsFeatured(false);
     setFormObject({});
@@ -251,7 +253,10 @@ function CafeForm({ form, id }) {
             onClick={(event) => handleRoasterSelect(roaster, event)}
             key={roaster._id}
           />
-        ))}
+          
+        )).then((res) => loadRequests())
+        .catch((err) => console.log("Error: Could not load roasters."))
+        }
 
         {/* Buttons are disabled depending on if an existing cafe is selected */}
 
@@ -283,6 +288,5 @@ function CafeForm({ form, id }) {
       </form>
     </>
   );
-}
 
 export default CafeForm;
