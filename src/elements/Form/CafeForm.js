@@ -34,7 +34,7 @@ function CafeForm({ form, id }) {
         instagram_url: formObject.instagram_url,
         roasters: formObject.roasters?.map((roaster) => roaster._id),
         custom_photos: [formObject.images],
-      }).then((res) => console.log(res));
+      })
     } else {
       // Creates a new cafe to database
       API.postCafe({
@@ -49,7 +49,8 @@ function CafeForm({ form, id }) {
         instagram_url: formObject.instagram_url,
         roasters: formObject.roasters?.map((roaster) => roaster._id),
         custom_photos: [formObject.images],
-      });
+      }).then((res) => console.log(res))
+      .fail((err) => console.log("Error: Could not create new cafe."));
     }
     setFormObject({});
   }
@@ -184,6 +185,7 @@ function CafeForm({ form, id }) {
           value={formObject.instagram_url || ""}
           placeholder="Insta (required)"
         />
+        
         {/* TODO - Images input goes here */}
         <InputField
           onChange={handleInputChange}
@@ -199,10 +201,13 @@ function CafeForm({ form, id }) {
                   <img src={photo.photo_url} alt="cafe" />
                   <button onClick={() => deletePhoto(photo.photo_url)}>
                     Delete
-                  </button>
+                  </button>8
                 </div>
-              );
+              )
+              .then((res) => loadRequests())
+              .fail((err) => console.log("Error: Photos could not load."));
             })
+
           : null}
 
         <button type="button" onClick={showWidget}>
@@ -242,7 +247,10 @@ function CafeForm({ form, id }) {
             onClick={(event) => handleRoasterSelect(roaster, event)}
             key={roaster._id}
           />
-        ))}
+          
+        )).then((res) => loadRequests())
+        .catch((err) => console.log("Error: Could not load roasters."))
+        }
 
         {/* Buttons are disabled depending on if an existing cafe is selected */}
 
