@@ -90,6 +90,7 @@ function Dashboard() {
 
   async function transformReferences() {
     try {
+      if (!currentCafe) return;
       if (
         currentCafe.photos.length > 0 &&
         !currentCafe.photos?.[0]?.photo_url
@@ -144,7 +145,7 @@ function Dashboard() {
               className="SearchResultsBtn"
               name={cafe.name}
               onClick={() => handleCafeChange(cafe)}
-              key={cafe._id}
+              key={cafe.place_id}
             />
           ))
         )}
