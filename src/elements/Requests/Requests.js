@@ -29,21 +29,20 @@ export default function Requests() {
   return (
     <div className="Requests">
       <h4>Incoming Requests</h4>
-      {
-        // Displays each request in individual cards
-        requests.map((item) => (
-          <RequestCard
-            key={item._id}
-            id={item._id}
-            username={item.username}
-            email={item.email}
-            cafe_name={item.cafe_name}
-            cafe_address={item.cafe_address}
-            notes={item.notes}
-            deleteRequest={deleteRequest}
-          />
-        ))
-      }
+      {!requests
+        ? null
+        : requests.map((item) => (
+            <RequestCard
+              key={item._id}
+              id={item._id}
+              username={item.username}
+              email={item.email}
+              cafe_name={item.cafe_name}
+              cafe_address={item.cafe_address}
+              notes={item.notes}
+              deleteRequest={deleteRequest}
+            />
+          ))}
     </div>
   );
 }
