@@ -28,7 +28,7 @@ export default function Requests() {
   return (
     <div className="Requests">
       <h4>Incoming Requests</h4>
-      {/* {requests.map((item) => {
+      {requests.map((item) => {
         return (
           <RequestCard
             key={item._id}
@@ -41,7 +41,7 @@ export default function Requests() {
             deleteRequest={deleteRequest}
           />
         );
-      })} */}
+      })}
     </div>
   );
 }
