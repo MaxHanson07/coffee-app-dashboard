@@ -17,7 +17,11 @@ function CafeForm({ form, id }) {
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
-    setIsFeatured(true);
+    if (isFeatured === true) {
+      setIsFeatured(false);
+    } else {
+      setIsFeatured(true);
+    }
   }
 
   function handleFormSubmit(e) {
