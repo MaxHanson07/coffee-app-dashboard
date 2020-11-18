@@ -1,6 +1,9 @@
-import React from react;
+import React from "react";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import "./Scss/resets.scss";
+
 function App() {
-  return <div className="App"></div>;
+  return <Dashboard />;
 }
 
 export default App;

@@ -1,0 +1,58 @@
+@import "../../SCSS/variables.scss";
+
+.Btn {
+  border: none;
+  outline: none;
+  background-color: #05c7f2;
+  height: 25px;
+  width: 75px;
+  border-radius: 20px;
+  margin: 10px 0;
+  font-family: $font-family;
+  color: $black;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $black;
+    color: #fff;
+  }
+  &:active {
+    background-color: #2de398;
+    color: #1c1919;
+  }
+}
+
+.SearchResultsBtn {
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 30px;
+  color: #05c7f2;
+  background-color: #fff;
+  margin-bottom: 5px;
+  cursor: pointer;
+
+  &:hover {
+    color: #000;
+  }
+  &:active {
+    color: #2de398;
+  }
+}
+
+.Delete {
+  background-color: #e30e27 !important;
+}
+
+.X {
+  margin-left: 4px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  &:hover {
+    color: #05c7f2;
+  }
+  &:active {
+    color: #2de398;
+  }
+}

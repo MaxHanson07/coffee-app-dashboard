@@ -1,0 +1,30 @@
+@import "../../SCSS/variables.scss";
+
+.RequestCard {
+  width: 90%;
+  margin: 5px auto;
+  height: 140px;
+  box-shadow: $box-shadow;
+  font-family: $font-family;
+  display: flex;
+  flex-direction: column;
+
+  .BtnDiv {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-left: 200px;
+    margin-top: 4px;
+  }
+  .RequestItem {
+    display: flex;
+    align-items: center;
+    margin: 4px 0;
+    padding-left: 10px;
+
+    p {
+      margin-left: 5px;
+      font-size: 14px;
+    }
+  }
+}
