@@ -205,6 +205,7 @@ function CafeForm({ form, id }) {
                     <Button
                       className="Btn "
                       name="Delete"
+                      type="button"
                       onClick={() => deletePhoto(photo.photo_url)}
                     />
                   </div>
