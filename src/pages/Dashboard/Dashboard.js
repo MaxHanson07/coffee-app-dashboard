@@ -145,7 +145,7 @@ function Dashboard() {
               className="SearchResultsBtn"
               name={cafe.name}
               onClick={() => handleCafeChange(cafe)}
-              key={cafe.place_id}
+              key={cafe.place_id || cafe._id}
             />
           ))
         )}
