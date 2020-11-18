@@ -1,13 +1,13 @@
-@import "../../SCSS/variables.scss";
+@import url("https://use.typekit.net/rvw7fnr.css");
 
 .Input {
   border: none;
   outline: none;
-  box-shadow: $box-shadow;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
   height: 30px;
   padding-left: 10px;
   border-radius: 10px;
   margin: 8px 0;
   width: 80%;
-  font-family: $font-family;
+  font-family: "interstate", "san-serif";
 }

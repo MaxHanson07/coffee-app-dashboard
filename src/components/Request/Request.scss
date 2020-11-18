@@ -1,11 +1,11 @@
-@import "../../SCSS/variables.scss";
+@import url("https://use.typekit.net/rvw7fnr.css");
 
 .RequestCard {
   width: 90%;
   margin: 5px auto;
   height: 140px;
-  box-shadow: $box-shadow;
-  font-family: $font-family;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+  font-family: "interstate", "san-serif";
   display: flex;
   flex-direction: column;
 

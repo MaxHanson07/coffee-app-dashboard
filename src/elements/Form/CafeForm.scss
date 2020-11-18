@@ -1,4 +1,4 @@
-@import "../../SCSS/variables.scss";
+@import url("https://use.typekit.net/rvw7fnr.css");
 
 .DatabaseForm {
   grid-row: 2 / span 2;
@@ -11,8 +11,8 @@
   padding: 20px 0;
   border-radius: 10px;
   border: none;
-  box-shadow: $box-shadow;
-  font-family: $font-family;
+  box-shadow: "interstate", "san-serif";
+  font-family: "interstate", "san-serif";
   background-color: #fff;
 
   .BtnDiv {

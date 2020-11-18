@@ -1,4 +1,4 @@
-@import "../../SCSS/variables.scss";
+@import url("https://use.typekit.net/rvw7fnr.css");
 
 .Search {
   grid-column: 3 / span 1;
@@ -14,7 +14,7 @@
     border: none;
     border-radius: 40px;
     padding-left: 10px;
-    font-family: $font-family;
+    font-family: "interstate", "san-serif";
   }
   .SearchBtn {
     height: 40px;
@@ -27,7 +27,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: $black;
+      background-color: #1c1919;
       color: #fff;
     }
     &:active {
