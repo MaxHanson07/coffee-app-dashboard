@@ -59,237 +59,234 @@ function CafeForm({ form, id }) {
         is_featured: isFeatured,
       });
     }
+
+    setIsFeatured(false);
+    setFormObject({});
   }
-  setIsFeatured(false);
-  setFormObject({});
-}
 
-// Deletes cafes from database
-function handleDelete(e) {
-  e.preventDefault();
-  API.deleteCafe(id).catch((err) => console.error(err));
-  setFormObject({});
-}
-
-// Removes roaster from cafe
-function removeRoaster(id) {
-  let newFormObject = { ...formObject };
-  newFormObject.roasters = newFormObject.roasters.filter(
-    (roaster) => roaster._id !== id
-  );
-  setFormObject(newFormObject);
-}
-
-// Searches the database for roasters
-async function searchRoasters(e) {
-  e.preventDefault();
-  try {
-    let roasterName = formObject.searchRoaster;
-    let { data } = await API.roastersSearch(roasterName);
-    setRoastersReturned(data);
-    setFormObject({ ...formObject, searchRoaster: "" });
-  } catch (err) {
-    console.error(err);
+  // Deletes cafes from database
+  function handleDelete(e) {
+    e.preventDefault();
+    API.deleteCafe(id).catch((err) => console.error(err));
+    setFormObject({});
   }
-}
 
-// Adds selected roaster to state
-function handleRoasterSelect(roaster, event) {
-  event.preventDefault();
-  let newFormObject = { ...formObject };
-  if (newFormObject.roasters) {
-    newFormObject.roasters.push(roaster);
-  } else {
-    newFormObject.roasters = [roaster];
+  // Removes roaster from cafe
+  function removeRoaster(id) {
+    let newFormObject = { ...formObject };
+    newFormObject.roasters = newFormObject.roasters.filter(
+      (roaster) => roaster._id !== id
+    );
+    setFormObject(newFormObject);
   }
-  setFormObject(newFormObject);
-  setRoastersReturned([]);
-}
 
-function deletePhoto(photo_url) {
-  let newFormObject = { ...formObject };
-  newFormObject.photos = newFormObject.photos.filter(
-    (photo) => photo.photo_url !== photo_url
-  );
-  setFormObject(newFormObject);
-}
-
-useEffect(() => {
-  setFormObject(form);
-  setIsFeatured(form.is_featured);
-}, [form]);
-
-let cloudinaryWidget = window.cloudinary.createUploadWidget(
-  {
-    cloudName: "dtnhqkg8n",
-    uploadPreset: "u3zfjskp",
-    sources: ["local", "url", "image_search", "camera"],
-  },
-  (error, result) => {
-    if (!error && result && result.event === "success") {
-      let photo = {
-        photo_reference: "none",
-        html_attributions: "",
-        photo_url: result.info.url,
-      };
-      setFormObject({ ...formObject, photos: [...formObject.photos, photo] });
+  // Searches the database for roasters
+  async function searchRoasters(e) {
+    e.preventDefault();
+    try {
+      let roasterName = formObject.searchRoaster;
+      let { data } = await API.roastersSearch(roasterName);
+      setRoastersReturned(data);
+      setFormObject({ ...formObject, searchRoaster: "" });
+    } catch (err) {
+      console.error(err);
     }
   }
-);
 
-function showWidget() {
-  cloudinaryWidget.open();
-}
+  // Adds selected roaster to state
+  function handleRoasterSelect(roaster, event) {
+    event.preventDefault();
+    let newFormObject = { ...formObject };
+    if (newFormObject.roasters) {
+      newFormObject.roasters.push(roaster);
+    } else {
+      newFormObject.roasters = [roaster];
+    }
+    setFormObject(newFormObject);
+    setRoastersReturned([]);
+  }
 
-return (
-  <>
-    <form className="DatabaseForm">
-      <h4>Cafe Form</h4>
-      <div className="Response"></div>
-      {/* Allows admins to customize cafe details */}
-      <InputField
-        onChange={handleInputChange}
-        name="name"
-        value={formObject["name"] || ""}
-        placeholder="Name (required)"
-      />
-      <InputField
-        onChange={handleInputChange}
-        name="lat"
-        value={formObject["lat"] || ""}
-        placeholder="Lat (required)"
-      />
-      <InputField
-        onChange={handleInputChange}
-        name="lng"
-        value={formObject["lng"] || ""}
-        placeholder="Lng (required)"
-      />
-      <InputField
-        onChange={handleInputChange}
-        name="formatted_address"
-        value={formObject["formatted_address"] || ""}
-        placeholder="Address (required)"
-      />
-      <InputField
-        onChange={handleInputChange}
-        name="formatted_phone_number"
-        value={formObject["formatted_phone_number"] || ""}
-        placeholder="Phone Number (required)"
-      />
-      <InputField
-        onChange={handleInputChange}
-        name="website"
-        value={formObject["website"] || ""}
-        placeholder="Website (required)"
-      />
-      <InputField
-        onChange={handleInputChange}
-        name="instagram_url"
-        value={formObject.instagram_url || ""}
-        placeholder="Insta (required)"
-      />
+  function deletePhoto(photo_url) {
+    let newFormObject = { ...formObject };
+    newFormObject.photos = newFormObject.photos.filter(
+      (photo) => photo.photo_url !== photo_url
+    );
+    setFormObject(newFormObject);
+  }
 
-      <FeaturedCheck
-        onChange={handleInputChange}
-        checked={isFeatured === true ? true : false}
-        name="featured"
-        value={isFeatured || false}
-      />
+  useEffect(() => {
+    setFormObject(form);
+    setIsFeatured(form.is_featured);
+  }, [form]);
 
-      <div className="Photos">
-        {formObject.photos?.[0]?.photo_url
-          ? formObject.photos?.map((photo) => {
-              return (
-                <div key={photo.photo_url}>
-                  <img
-                    className="GooglePhotos"
-                    src={photo.photo_url}
-                    alt="cafe"
-                  />
-                  <Button
-                    className="Btn "
-                    name="Delete"
-                    type="button"
-                    onClick={() => deletePhoto(photo.photo_url)}
-                  />
-                </div>
-              );
-            })
-          : null}
-      </div>
+  let cloudinaryWidget = window.cloudinary.createUploadWidget(
+    {
+      cloudName: "dtnhqkg8n",
+      uploadPreset: "u3zfjskp",
+      sources: ["local", "url", "image_search", "camera"],
+    },
+    (error, result) => {
+      if (!error && result && result.event === "success") {
+        let photo = {
+          photo_reference: "none",
+          html_attributions: "",
+          photo_url: result.info.url,
+        };
+        setFormObject({ ...formObject, photos: [...formObject.photos, photo] });
+      }
+    }
+  );
 
-      <button type="button" className="Btn" onClick={showWidget}>
-        Upload
-      </button>
+  function showWidget() {
+    cloudinaryWidget.open();
+  }
 
-      {formObject.roasters?.map((roaster) => {
-        return (
-          <div key={roaster._id}>
-            <span>{roaster.name}</span>
-            <button
-              className="X"
-              onClick={() => removeRoaster(roaster._id)}
-              type="button"
-            >
-              <FontAwesomeIcon icon={faTimesCircle} size="1x" />
-            </button>
-          </div>
-        );
-      })}
-      <InputField
-        onChange={handleInputChange}
-        name="searchRoaster"
-        value={formObject.searchRoaster || ""}
-        placeholder="Add a roaster"
-      />
-      <Button
-        className="Btn"
-        name="Search"
-        disabled={!formObject.searchRoaster}
-        onClick={searchRoasters}
-      />
-      {roastersReturned
-        .map((roaster) => (
+  return (
+    <>
+      <form className="DatabaseForm">
+        <h4>Cafe Form</h4>
+        <div className="Response"></div>
+        {/* Allows admins to customize cafe details */}
+        <InputField
+          onChange={handleInputChange}
+          name="name"
+          value={formObject["name"] || ""}
+          placeholder="Name (required)"
+        />
+        <InputField
+          onChange={handleInputChange}
+          name="lat"
+          value={formObject["lat"] || ""}
+          placeholder="Lat (required)"
+        />
+        <InputField
+          onChange={handleInputChange}
+          name="lng"
+          value={formObject["lng"] || ""}
+          placeholder="Lng (required)"
+        />
+        <InputField
+          onChange={handleInputChange}
+          name="formatted_address"
+          value={formObject["formatted_address"] || ""}
+          placeholder="Address (required)"
+        />
+        <InputField
+          onChange={handleInputChange}
+          name="formatted_phone_number"
+          value={formObject["formatted_phone_number"] || ""}
+          placeholder="Phone Number (required)"
+        />
+        <InputField
+          onChange={handleInputChange}
+          name="website"
+          value={formObject["website"] || ""}
+          placeholder="Website (required)"
+        />
+        <InputField
+          onChange={handleInputChange}
+          name="instagram_url"
+          value={formObject.instagram_url || ""}
+          placeholder="Insta (required)"
+        />
+
+        <FeaturedCheck
+          onChange={handleInputChange}
+          checked={isFeatured === true ? true : false}
+          name="featured"
+          value={isFeatured || false}
+        />
+
+        <div className="Photos">
+          {formObject.photos?.[0]?.photo_url
+            ? formObject.photos?.map((photo) => {
+                return (
+                  <div key={photo.photo_url}>
+                    <img
+                      className="GooglePhotos"
+                      src={photo.photo_url}
+                      alt="cafe"
+                    />
+                    <Button
+                      className="Btn "
+                      name="Delete"
+                      type="button"
+                      onClick={() => deletePhoto(photo.photo_url)}
+                    />
+                  </div>
+                );
+              })
+            : null}
+        </div>
+
+        <button type="button" className="Btn" onClick={showWidget}>
+          Upload
+        </button>
+
+        {formObject.roasters?.map((roaster) => {
+          return (
+            <div key={roaster._id}>
+              <span>{roaster.name}</span>
+              <button
+                className="X"
+                onClick={() => removeRoaster(roaster._id)}
+                type="button"
+              >
+                <FontAwesomeIcon icon={faTimesCircle} size="1x" />
+              </button>
+            </div>
+          );
+        })}
+        <InputField
+          onChange={handleInputChange}
+          name="searchRoaster"
+          value={formObject.searchRoaster || ""}
+          placeholder="Add a roaster"
+        />
+        <Button
+          className="Btn"
+          name="Search"
+          disabled={!formObject.searchRoaster}
+          onClick={searchRoasters}
+        />
+        {roastersReturned.map((roaster) => (
           <Button
             className="SearchResultsBtn"
             name={roaster.name}
             onClick={(event) => handleRoasterSelect(roaster, event)}
             key={roaster._id}
           />
-        ))
-        .then((res) => loadRequests())
-        .catch((err) => console.log("Error: Could not load roasters."))}
+        ))}
 
-      {/* Buttons are disabled depending on if an existing cafe is selected */}
+        {/* Buttons are disabled depending on if an existing cafe is selected */}
 
-      <div className="BtnDiv">
-        {id ? (
-          <>
+        <div className="BtnDiv">
+          {id ? (
+            <>
+              <Button
+                className="Btn"
+                name="Update"
+                onClick={handleFormSubmit}
+                disabled={!id}
+              />
+              <Button
+                className="Btn"
+                name="Delete"
+                onClick={handleDelete}
+                disabled={!id}
+              />
+            </>
+          ) : (
             <Button
               className="Btn"
-              name="Update"
+              name="Add"
               onClick={handleFormSubmit}
-              disabled={!id}
+              disabled={id}
             />
-            <Button
-              className="Btn"
-              name="Delete"
-              onClick={handleDelete}
-              disabled={!id}
-            />
-          </>
-        ) : (
-          <Button
-            className="Btn"
-            name="Add"
-            onClick={handleFormSubmit}
-            disabled={id}
-          />
-        )}
-      </div>
-    </form>
-  </>
-);
-
+          )}
+        </div>
+      </form>
+    </>
+  );
+}
 export default CafeForm;
