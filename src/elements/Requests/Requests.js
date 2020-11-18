@@ -4,9 +4,10 @@ import API from "../../utils/API";
 import "./Requests.scss";
 
 export default function Requests() {
-  const [requests, setRequests] = useState([]);
+  const [requests, setRequests] = useState(null);
 
   useEffect(() => {
+    setRequests([]);
     loadRequests();
   }, []);
 
@@ -29,7 +30,7 @@ export default function Requests() {
   return (
     <div className="Requests">
       <h4>Incoming Requests</h4>
-      {requests.length === 0
+      {!requests
         ? null
         : requests.map((item) => {
             return (
