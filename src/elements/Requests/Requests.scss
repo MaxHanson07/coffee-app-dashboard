@@ -1,4 +1,4 @@
-@import "../../SCSS/variables.scss";
+@import url("https://use.typekit.net/rvw7fnr.css");
 
 .Requests {
   h4 {
@@ -15,7 +15,7 @@
   background-color: #fff;
   border-radius: 10px;
   border: none;
-  box-shadow: $box-shadow;
-  font-family: $font-family;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+  font-family: "interstate", "san-serif";
   overflow-y: auto;
 }

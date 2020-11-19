@@ -18,7 +18,6 @@ export default function Requests() {
       })
       .catch((err) => console.log(err));
   }
-
   // Deletes request by the id of the request in which the delete button is selected
   function deleteRequest(id) {
     API.deleteRequest(id)
@@ -29,9 +28,8 @@ export default function Requests() {
   return (
     <div className="Requests">
       <h4>Incoming Requests</h4>
-      {
-        // Displays each request in individual cards
-        requests.map((item) => (
+      {requests.map((item) => {
+        return (
           <RequestCard
             key={item._id}
             id={item._id}
@@ -42,8 +40,8 @@ export default function Requests() {
             notes={item.notes}
             deleteRequest={deleteRequest}
           />
-        ))
-      }
+        );
+      })}
     </div>
   );
 }
