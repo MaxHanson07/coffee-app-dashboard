@@ -9,32 +9,7 @@
   //   isLoggedIn: false
   // })
 
-  // useEffect(fetchUserData, [])
 
-  // function fetchUserData() {
-  //   const token = localStorage.getItem("token");
-  //   API.getProfile(token).then(profileData => {
-  //     if (profileData) {
-  //       setProfileState({
-  //         name: profileData.name,
-  //         email: profileData.email,
-  //         token: token,
-  //         id: profileData.id,
-  //         isLoggedIn: true
-  //       })
-  //     } else {
-  //       localStorage.removeItem("token");
-  //       setProfileState({
-  //         name: "",
-  //         email: "",
-  //         token: "",
-  //         id: "",
-  //         isLoggedIn: false
-  //       })
-  //     }
-  //   }
-  //   )
-  // }
 
 import React, {useState} from "react";
 import API from "./utils/API";
@@ -60,15 +35,7 @@ function App() {
     event.preventDefault();
     API.login(loginFormState).then(newToken => {
       console.log(newToken)
-      localStorage.setItem("token", newToken.token)
-      // API.getProfile(newToken.token).then(profileData => {
-      //   setProfileState({
-      //     name: profileData.name,
-      //     email: profileData.email,
-      //     id: profileData.id,
-      //     isLoggedIn: true
-      //   })
-      // })
+
     })
   }
 
