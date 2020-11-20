@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header/Header";
 import Search from "../../elements/Search/Search";
 import PlacesSearch from "../../elements/PlacesSearch/PlacesSearch";
@@ -9,7 +9,7 @@ import "./Dashboard.scss";
 import Button from "../../components/Button/Button";
 import RoasterForm from "../../elements/RoasterForm/RoasterForm";
 
-function Dashboard() {
+function Dashboard({ loggedIn, setLoggedIn }) {
   const [placesState, setPlacesState] = useState({
     placesSearchbar: "",
     searchResults: {},
@@ -33,34 +33,39 @@ function Dashboard() {
     is_featured: false,
   });
 
-  const transformReferences = useRef(() => {});
-  transformReferences.current = async () => {
+  async function checkAuth() {
     try {
-      if (!currentCafe) return;
-      if (
-        currentCafe.photos.length > 0 &&
-        !currentCafe.photos?.[0]?.photo_url
-      ) {
-        let { data } = await API.addUrls(currentCafe.photos);
-        setCurrentCafe({ ...currentCafe, photos: data });
+      console.log("Checking Auth");
+      let token = localStorage.getItem("token");
+      if (!token) {
+        setLoggedIn(false);
+        return;
+      } else {
+        let authenticated = await API.verifyToken(token);
+        if (authenticated.ok === true) {
+          console.log(authenticated.ok);
+          setLoggedIn(true);
+        } else {
+          setLoggedIn(false);
+        }
       }
     } catch (err) {
       console.error(err);
     }
-  };
+  }
 
   useEffect(() => {
-    transformReferences.current();
-  }, [currentCafe]);
+    checkAuth();
+  });
 
   // Retrieves user input in places search
-  const handlePlacesSearchInputChange = (event) => {
+  function handlePlacesSearchInputChange(event) {
     let { name, value } = event.target;
     setPlacesState({ ...placesState, [name]: value });
-  };
+  }
 
   // Makes an API call to Google Places
-  const handlePlacesSearchSubmit = async (event) => {
+  async function handlePlacesSearchSubmit(event) {
     try {
       event.preventDefault();
       let { data } = await API.placesSearch(placesState.placesSearchbar);
@@ -91,10 +96,10 @@ function Dashboard() {
       console.error(err);
       setNoResults(true);
     }
-  };
+  }
 
   // Makes API call to database to search for a cafe with a name similar to the name entered in searchbar
-  const handleCafesSearchSubmit(event) {
+  async function handleCafesSearchSubmit(event) {
     try {
       event.preventDefault();
       let { data } = await API.cafesSearch(cafeSearch);
@@ -108,6 +113,21 @@ function Dashboard() {
     }
   }
 
+  async function transformReferences() {
+    try {
+      if (!currentCafe) return;
+      if (
+        currentCafe.photos.length > 0 &&
+        !currentCafe.photos?.[0]?.photo_url
+      ) {
+        let { data } = await API.addUrls(currentCafe.photos);
+        setCurrentCafe({ ...currentCafe, photos: data });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   // Retrieves user input in the searchbar
   const handleCafeChange = (cafeForm) => {
     setCurrentCafe(cafeForm);
@@ -115,9 +135,18 @@ function Dashboard() {
     setCafes([]);
   };
 
+  const logout = () => {
+    localStorage.removeItem("token");
+    setLoggedIn(false);
+  };
+
+  useEffect(() => {
+    transformReferences();
+  }, [currentCafe]);
+
   return (
     <div className="Dashboard">
-      <Header />
+      <Header logout={logout} loggedIn={loggedIn} />
       {/* Displays search bar and retrieves the user input inside of the searchbar */}
       <Search
         handleInputChange={(e) => {
