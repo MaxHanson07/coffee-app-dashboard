@@ -71,4 +71,15 @@ export default {
       process.env.REACT_APP_SERVER_URL + "/api/cafes/search/" + name
     );
   },
+  login:function(userData){
+    console.log(userData)
+    return fetch(process.env.REACT_APP_SERVER_URL + "/api/users/login",{
+        method:"POST",
+        headers: {
+            'Content-Type': 'application/json'
+          },
+        body:JSON.stringify(userData)
+    }).then(res=> res.json()).catch(err=>null)
+}
+
 };
