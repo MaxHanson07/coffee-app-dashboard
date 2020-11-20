@@ -1,27 +1,31 @@
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Login from "./pages/Login/Login";
-import React from "react";
-import {Switch, BrowserRouter as Router, Route, Redirect} from "react-router-dom";
+import React, {useState} from "react";
+import { Switch, BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 function App() {
 
-return (
-  <div className="App">
-    <Router>
-      <Switch>
-        <Route exact path="/">
-          <Login />
-        </Route>
-        <Route exact path="/dashboard">
-          <Dashboard />
-        </Route>
-        <Route>
-          <Redirect to = "/" />
-        </Route>
-      </Switch>
-    </Router>
-  </div>
-);
+const [loggedIn, setLoggedIn] = useState(true)
+
+  return (
+    <div className="App">
+      <Router>
+        <Switch>
+          {loggedIn ? (
+          <Route exact path="/" >
+            <Dashboard setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
+            </Route>
+          ): (
+            <Route exact path="/" >
+            <Login setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
+            </Route>          )}
+          <Route>
+            <Redirect to="/" />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
+  );
 }
 
 export default App;

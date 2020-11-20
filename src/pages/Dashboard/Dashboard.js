@@ -9,7 +9,7 @@ import "./Dashboard.scss";
 import Button from "../../components/Button/Button";
 import RoasterForm from "../../elements/RoasterForm/RoasterForm";
 
-function Dashboard() {
+function Dashboard({loggedIn, setLoggedIn}) {
   const [placesState, setPlacesState] = useState({
     placesSearchbar: "",
     searchResults: {},
@@ -32,6 +32,32 @@ function Dashboard() {
     formatted_phone_number: "",
     is_featured: false,
   });
+
+  async function checkAuth() {
+    try {
+      console.log("Checking Auth")
+      let token = localStorage.getItem("token")
+      if (!token) {
+        
+        setLoggedIn(false)
+        return
+      } else {
+        let authenticated = await API.verifyToken(token)
+        if (authenticated.ok === true) {
+          console.log(authenticated.ok)
+          setLoggedIn(true)
+        } else {
+          setLoggedIn(false)
+        }
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  useEffect(()=>{
+    checkAuth()
+  })
 
   // Retrieves user input in places search
   function handlePlacesSearchInputChange(event) {
@@ -110,13 +136,18 @@ function Dashboard() {
     setCafes([]);
   };
 
+  const logout = () => {
+    localStorage.removeItem("token")
+    setLoggedIn(false)
+  }
+
   useEffect(() => {
     transformReferences();
   }, [currentCafe]);
 
   return (
     <div className="Dashboard">
-      <Header />
+      <Header logout={logout} loggedIn={loggedIn}/>
       {/* Displays search bar and retrieves the user input inside of the searchbar */}
       <Search
         handleInputChange={(e) => {
