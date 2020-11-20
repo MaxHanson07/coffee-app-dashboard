@@ -42,7 +42,6 @@ function Dashboard({ loggedIn, setLoggedIn }) {
       } else {
         let authenticated = await API.verifyToken(token);
         if (authenticated.ok === true) {
-          console.log(authenticated.ok);
           setLoggedIn(true);
         } else {
           setLoggedIn(false);
