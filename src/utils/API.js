@@ -73,7 +73,7 @@ export default {
   },
   login:function(userData){
     console.log(userData)
-    return fetch(process.env.REACT_APP_SERVER_URL + "/api/users/login",{
+    return fetch(process.env.REACT_APP_SERVER_URL + "/login",{
         method:"POST",
         headers: {
             'Content-Type': 'application/json'

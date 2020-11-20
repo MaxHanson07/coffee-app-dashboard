@@ -1,62 +1,27 @@
-// import React from "react";
-// import Dashboard from "./pages/Dashboard/Dashboard";
-
-// import Login from "./pages/Login/Login";
-  // const [profileState, setProfileState] = useState({
-  //   name: "",
-  //   email: "",
-  //   id: "",
-  //   isLoggedIn: false
-  // })
-
-
-
-import React, {useState} from "react";
-import API from "./utils/API";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Login from "./pages/Login/Login";
+import React from "react";
+import {Switch, BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 
 function App() {
 
-  const [loginFormState, setLoginFormState] = useState({
-    email: "",
-    password: ""
-  })
-
-
-
-  const inputChange = event => {
-    const { name, value } = event.target;
-    setLoginFormState({
-      ...loginFormState,
-      [name]: value
-    })
-  }
-
-  const formSubmit = event => {
-    event.preventDefault();
-    API.login(loginFormState).then(newToken => {
-      console.log(newToken)
-
-    })
-  }
-
-
-  return (
-    <div className="App">
-      <form onSubmit={formSubmit}>
-        <input onChange={inputChange} value={loginFormState.email} type="text" name="email" placeholder="email" />
-        <input onChange={inputChange} value={loginFormState.password} type="text" name="password" placeholder="password" />
-        <input type="submit" value="login" />
-      </form>
-    </div>
-  );
+return (
+  <div className="App">
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <Login />
+        </Route>
+        <Route exact path="/dashboard">
+          <Dashboard />
+        </Route>
+        <Route>
+          <Redirect to = "/" />
+        </Route>
+      </Switch>
+    </Router>
+  </div>
+);
 }
 
 export default App;
-
-// function App() {
-//   return
-//   <Login/>; 
-//   // <Dashboard />;
-// }
-
-// export default App;
