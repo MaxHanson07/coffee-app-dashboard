@@ -9,7 +9,7 @@ import "./Dashboard.scss";
 import Button from "../../components/Button/Button";
 import RoasterForm from "../../elements/RoasterForm/RoasterForm";
 
-function Dashboard() {
+function Dashboard({setLoggedIn}) {
   const [placesState, setPlacesState] = useState({
     placesSearchbar: "",
     searchResults: {},
@@ -32,6 +32,32 @@ function Dashboard() {
     formatted_phone_number: "",
     is_featured: false,
   });
+
+  async function checkAuth() {
+    try {
+      console.log("Checking Auth")
+      let token = localStorage.getItem("token")
+      if (!token) {
+        
+        setLoggedIn(false)
+        return
+      } else {
+        let authenticated = await API.verifyToken(token)
+        if (authenticated.ok === true) {
+          console.log(authenticated.ok)
+          setLoggedIn(true)
+        } else {
+          setLoggedIn(false)
+        }
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  useEffect(()=>{
+    checkAuth()
+  })
 
   // Retrieves user input in places search
   function handlePlacesSearchInputChange(event) {
