@@ -213,7 +213,7 @@ function CafeForm({ form, id }) {
           {formObject.photos?.[0]?.photo_url
             ? formObject.photos?.map((photo) => {
                 return (
-                  <div key={photo.photo_url}>
+                  <div key={photo.photo_url} className="Photo">
                     <img
                       className="GooglePhotos"
                       src={photo.photo_url}
