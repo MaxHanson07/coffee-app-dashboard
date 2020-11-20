@@ -13,11 +13,11 @@ const [loggedIn, setLoggedIn] = useState(true)
         <Switch>
           {loggedIn ? (
           <Route exact path="/" >
-            <Dashboard setLoggedIn={setLoggedIn} />
+            <Dashboard setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
             </Route>
           ): (
             <Route exact path="/" >
-            <Login setLoggedIn={setLoggedIn} />
+            <Login setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
             </Route>          )}
           <Route>
             <Redirect to="/" />

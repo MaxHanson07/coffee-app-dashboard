@@ -9,7 +9,7 @@ import "./Dashboard.scss";
 import Button from "../../components/Button/Button";
 import RoasterForm from "../../elements/RoasterForm/RoasterForm";
 
-function Dashboard({setLoggedIn}) {
+function Dashboard({loggedIn, setLoggedIn}) {
   const [placesState, setPlacesState] = useState({
     placesSearchbar: "",
     searchResults: {},
@@ -136,13 +136,18 @@ function Dashboard({setLoggedIn}) {
     setCafes([]);
   };
 
+  const logout = () => {
+    localStorage.removeItem("token")
+    setLoggedIn(false)
+  }
+
   useEffect(() => {
     transformReferences();
   }, [currentCafe]);
 
   return (
     <div className="Dashboard">
-      <Header />
+      <Header logout={logout} loggedIn={loggedIn}/>
       {/* Displays search bar and retrieves the user input inside of the searchbar */}
       <Search
         handleInputChange={(e) => {
