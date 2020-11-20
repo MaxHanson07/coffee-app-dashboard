@@ -14,80 +14,87 @@ function CafeForm({ form, id }) {
   const [isFeatured, setIsFeatured] = useState(form.is_featured);
 
   // Handles updating component state when the user types into the input field
-  function handleInputChange(event) {
+  const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
-  }
+  };
 
-  function handleCheckChange(event) {
+  const handleCheckChange = (event) => {
     if (isFeatured === true) {
       setIsFeatured(false);
     } else {
       setIsFeatured(true);
     }
-  }
+  };
 
-  function handleFormSubmit(e) {
-    e.preventDefault();
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
     // If an id exists run an update, if no id run a create
     // Id will exist when a cafe is selected after a database search
-    let token = localStorage.getItem("token")
+    let token = localStorage.getItem("token");
     if (id) {
-      API.updateCafe(id, {
-        name: formObject.name,
-        lat: formObject.lat,
-        lng: formObject.lng,
-        formatted_address: formObject.formatted_address,
-        formatted_phone_number: formObject.formatted_phone_number,
-        photos: formObject.photos,
-        website: formObject.website,
-        instagram_url: formObject.instagram_url,
-        roasters: formObject.roasters?.map((roaster) => roaster._id),
-        custom_photos: [formObject.images],
-        is_featured: isFeatured,
-      }, token);
+      API.updateCafe(
+        id,
+        {
+          name: formObject.name,
+          lat: formObject.lat,
+          lng: formObject.lng,
+          formatted_address: formObject.formatted_address,
+          formatted_phone_number: formObject.formatted_phone_number,
+          photos: formObject.photos,
+          website: formObject.website,
+          instagram_url: formObject.instagram_url,
+          roasters: formObject.roasters?.map((roaster) => roaster._id),
+          custom_photos: [formObject.images],
+          is_featured: isFeatured,
+        },
+        token
+      );
     } else {
       // Creates a new cafe to database
-      API.postCafe({
-        name: formObject.name,
-        places_id: formObject.places_id,
-        lat: formObject.lat,
-        lng: formObject.lng,
-        formatted_address: formObject.formatted_address,
-        formatted_phone_number: formObject.formatted_phone_number,
-        photos: formObject.photos,
-        website: formObject.website,
-        instagram_url: formObject.instagram_url,
-        roasters: formObject.roasters?.map((roaster) => roaster._id),
-        custom_photos: [formObject.images],
-        is_featured: isFeatured,
-      }, token);
+      API.postCafe(
+        {
+          name: formObject.name,
+          places_id: formObject.places_id,
+          lat: formObject.lat,
+          lng: formObject.lng,
+          formatted_address: formObject.formatted_address,
+          formatted_phone_number: formObject.formatted_phone_number,
+          photos: formObject.photos,
+          website: formObject.website,
+          instagram_url: formObject.instagram_url,
+          roasters: formObject.roasters?.map((roaster) => roaster._id),
+          custom_photos: [formObject.images],
+          is_featured: isFeatured,
+        },
+        token
+      );
     }
 
     setIsFeatured(false);
     setFormObject({});
-  }
+  };
 
   // Deletes cafes from database
-  function handleDelete(e) {
-    e.preventDefault();
-    let token = localStorage.getItem("token")
+  const handleDelete = (event) => {
+    event.preventDefault();
+    let token = localStorage.getItem("token");
     API.deleteCafe(id, token).catch((err) => console.error(err));
     setFormObject({});
-  }
+  };
 
   // Removes roaster from cafe
-  function removeRoaster(id) {
+  const removeRoaster = (id) => {
     let newFormObject = { ...formObject };
     newFormObject.roasters = newFormObject.roasters.filter(
       (roaster) => roaster._id !== id
     );
     setFormObject(newFormObject);
-  }
+  };
 
   // Searches the database for roasters
-  async function searchRoasters(e) {
-    e.preventDefault();
+  const searchRoasters = async (event) => {
+    event.preventDefault();
     try {
       let roasterName = formObject.searchRoaster;
       let { data } = await API.roastersSearch(roasterName);
@@ -96,10 +103,10 @@ function CafeForm({ form, id }) {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   // Adds selected roaster to state
-  function handleRoasterSelect(roaster, event) {
+  const handleRoasterSelect = (roaster, event) => {
     event.preventDefault();
     let newFormObject = { ...formObject };
     if (newFormObject.roasters) {
@@ -109,22 +116,22 @@ function CafeForm({ form, id }) {
     }
     setFormObject(newFormObject);
     setRoastersReturned([]);
-  }
+  };
 
-  function deletePhoto(photo_url) {
+  const deletePhoto = (photo_url) => {
     let newFormObject = { ...formObject };
     newFormObject.photos = newFormObject.photos.filter(
       (photo) => photo.photo_url !== photo_url
     );
     setFormObject(newFormObject);
-  }
+  };
 
   useEffect(() => {
     setFormObject(form);
     setIsFeatured(form.is_featured);
   }, [form]);
 
-  let cloudinaryWidget = window.cloudinary.createUploadWidget(
+  const cloudinaryWidget = window.cloudinary.createUploadWidget(
     {
       cloudName: "dtnhqkg8n",
       uploadPreset: "u3zfjskp",
@@ -142,9 +149,9 @@ function CafeForm({ form, id }) {
     }
   );
 
-  function showWidget() {
+  const showWidget = () => {
     cloudinaryWidget.open();
-  }
+  };
 
   return (
     <>

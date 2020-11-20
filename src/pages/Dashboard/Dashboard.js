@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "../../components/Header/Header";
 import Search from "../../elements/Search/Search";
 import PlacesSearch from "../../elements/PlacesSearch/PlacesSearch";
@@ -9,7 +9,7 @@ import "./Dashboard.scss";
 import Button from "../../components/Button/Button";
 import RoasterForm from "../../elements/RoasterForm/RoasterForm";
 
-function Dashboard({loggedIn, setLoggedIn}) {
+function Dashboard({ loggedIn, setLoggedIn }) {
   const [placesState, setPlacesState] = useState({
     placesSearchbar: "",
     searchResults: {},
@@ -33,40 +33,38 @@ function Dashboard({loggedIn, setLoggedIn}) {
     is_featured: false,
   });
 
-  async function checkAuth() {
+  const checkAuth = async () => {
     try {
-      console.log("Checking Auth")
-      let token = localStorage.getItem("token")
+      let token = localStorage.getItem("token");
       if (!token) {
-        
-        setLoggedIn(false)
-        return
+        setLoggedIn(false);
+        return;
       } else {
-        let authenticated = await API.verifyToken(token)
+        let authenticated = await API.verifyToken(token);
         if (authenticated.ok === true) {
-          console.log(authenticated.ok)
-          setLoggedIn(true)
+          console.log(authenticated.ok);
+          setLoggedIn(true);
         } else {
-          setLoggedIn(false)
+          setLoggedIn(false);
         }
       }
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
-  }
+  };
 
-  useEffect(()=>{
-    checkAuth()
-  })
+  useEffect(() => {
+    checkAuth();
+  });
 
   // Retrieves user input in places search
-  function handlePlacesSearchInputChange(event) {
+  const handlePlacesSearchInputChange = (event) => {
     let { name, value } = event.target;
     setPlacesState({ ...placesState, [name]: value });
-  }
+  };
 
   // Makes an API call to Google Places
-  async function handlePlacesSearchSubmit(event) {
+  const handlePlacesSearchSubmit = async (event) => {
     try {
       event.preventDefault();
       let { data } = await API.placesSearch(placesState.placesSearchbar);
@@ -97,10 +95,10 @@ function Dashboard({loggedIn, setLoggedIn}) {
       console.error(err);
       setNoResults(true);
     }
-  }
+  };
 
   // Makes API call to database to search for a cafe with a name similar to the name entered in searchbar
-  async function handleCafesSearchSubmit(event) {
+  const handleCafesSearchSubmit = async (event) => {
     try {
       event.preventDefault();
       let { data } = await API.cafesSearch(cafeSearch);
@@ -112,9 +110,9 @@ function Dashboard({loggedIn, setLoggedIn}) {
       setNoResults(true);
       setCafeSearch("");
     }
-  }
-
-  async function transformReferences() {
+  };
+  const transformReferences = useRef(() => {});
+  transformReferences.current = async () => {
     try {
       if (!currentCafe) return;
       if (
@@ -127,7 +125,7 @@ function Dashboard({loggedIn, setLoggedIn}) {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   // Retrieves user input in the searchbar
   const handleCafeChange = (cafeForm) => {
@@ -137,17 +135,17 @@ function Dashboard({loggedIn, setLoggedIn}) {
   };
 
   const logout = () => {
-    localStorage.removeItem("token")
-    setLoggedIn(false)
-  }
+    localStorage.removeItem("token");
+    setLoggedIn(false);
+  };
 
   useEffect(() => {
-    transformReferences();
+    transformReferences.current();
   }, [currentCafe]);
 
   return (
     <div className="Dashboard">
-      <Header logout={logout} loggedIn={loggedIn}/>
+      <Header logout={logout} loggedIn={loggedIn} />
       {/* Displays search bar and retrieves the user input inside of the searchbar */}
       <Search
         handleInputChange={(e) => {

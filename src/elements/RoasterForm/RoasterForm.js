@@ -21,7 +21,7 @@ function RoasterForm() {
   const [roasters, setRoasters] = useState([]);
 
   // Adds/Updates a roaster to/in the database
-  async function handleRoasterFormSubmit(event) {
+  const handleRoasterFormSubmit = async (event) => {
     try {
       event.preventDefault();
       let token = localStorage.getItem("token")
@@ -46,7 +46,7 @@ function RoasterForm() {
     } catch (err) {
       setFail(true);
     }
-  }
+  };
 
   // Retrieves user input in the searchbar
   const handleRoasterSelection = (roaster) => {
@@ -55,17 +55,17 @@ function RoasterForm() {
   };
 
   // Form control for roaster form
-  function handleRoasterInputChange(event) {
+  const handleRoasterInputChange = (event) => {
     const { name, value } = event.target;
     setRoasterFormObject({ ...roasterFormObject, [name]: value });
-  }
+  };
 
-  function handleRoasterSearchChange(event) {
+  const handleRoasterSearchChange = (event) => {
     let { value } = event.target;
     setRoasterSearch(value);
-  }
+  };
 
-  async function handleRoasterSearchSubmit(event) {
+  const handleRoasterSearchSubmit = async (event) => {
     try {
       event.preventDefault();
       let { data } = await API.roastersSearch(roasterSearch);
@@ -75,9 +75,9 @@ function RoasterForm() {
     } catch (err) {
       setNoResults(true);
     }
-  }
+  };
 
-  async function handleRoasterDelete() {
+  const handleRoasterDelete = async () => {
     try {
       await API.deleteRoaster(roasterFormObject._id);
       setRoasterFormObject({
@@ -89,7 +89,7 @@ function RoasterForm() {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   return (
     <div className="RoasterForm">
