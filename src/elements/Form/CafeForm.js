@@ -31,6 +31,7 @@ function CafeForm({ form, id }) {
     e.preventDefault();
     // If an id exists run an update, if no id run a create
     // Id will exist when a cafe is selected after a database search
+    let token = localStorage.getItem("token")
     if (id) {
       API.updateCafe(id, {
         name: formObject.name,
@@ -44,7 +45,7 @@ function CafeForm({ form, id }) {
         roasters: formObject.roasters?.map((roaster) => roaster._id),
         custom_photos: [formObject.images],
         is_featured: isFeatured,
-      });
+      }, token);
     } else {
       // Creates a new cafe to database
       API.postCafe({
@@ -60,7 +61,7 @@ function CafeForm({ form, id }) {
         roasters: formObject.roasters?.map((roaster) => roaster._id),
         custom_photos: [formObject.images],
         is_featured: isFeatured,
-      });
+      }, token);
     }
 
     setIsFeatured(false);
@@ -70,7 +71,8 @@ function CafeForm({ form, id }) {
   // Deletes cafes from database
   function handleDelete(e) {
     e.preventDefault();
-    API.deleteCafe(id).catch((err) => console.error(err));
+    let token = localStorage.getItem("token")
+    API.deleteCafe(id, token).catch((err) => console.error(err));
     setFormObject({});
   }
 
