@@ -11,19 +11,19 @@ export default function Requests() {
   }, []);
 
   // Retrieves request from database and loads them on to dashboard
-  function loadRequests() {
+  const loadRequests = () => {
     API.getRequests()
       .then((res) => {
         setRequests(res.data);
       })
       .catch((err) => console.log(err));
-  }
+  };
   // Deletes request by the id of the request in which the delete button is selected
-  function deleteRequest(id) {
+  const deleteRequest = (id) => {
     API.deleteRequest(id)
       .then((res) => loadRequests())
       .catch((err) => console.log(err));
-  }
+  };
 
   return (
     <div className="Requests">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "../../components/Header/Header";
 import Search from "../../elements/Search/Search";
 import PlacesSearch from "../../elements/PlacesSearch/PlacesSearch";
@@ -33,14 +33,34 @@ function Dashboard() {
     is_featured: false,
   });
 
+  const transformReferences = useRef(() => {});
+  transformReferences.current = async () => {
+    try {
+      if (!currentCafe) return;
+      if (
+        currentCafe.photos.length > 0 &&
+        !currentCafe.photos?.[0]?.photo_url
+      ) {
+        let { data } = await API.addUrls(currentCafe.photos);
+        setCurrentCafe({ ...currentCafe, photos: data });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    transformReferences.current();
+  }, [currentCafe]);
+
   // Retrieves user input in places search
-  function handlePlacesSearchInputChange(event) {
+  const handlePlacesSearchInputChange = (event) => {
     let { name, value } = event.target;
     setPlacesState({ ...placesState, [name]: value });
-  }
+  };
 
   // Makes an API call to Google Places
-  async function handlePlacesSearchSubmit(event) {
+  const handlePlacesSearchSubmit = async (event) => {
     try {
       event.preventDefault();
       let { data } = await API.placesSearch(placesState.placesSearchbar);
@@ -71,10 +91,10 @@ function Dashboard() {
       console.error(err);
       setNoResults(true);
     }
-  }
+  };
 
   // Makes API call to database to search for a cafe with a name similar to the name entered in searchbar
-  async function handleCafesSearchSubmit(event) {
+  const handleCafesSearchSubmit = async (event) => {
     try {
       event.preventDefault();
       let { data } = await API.cafesSearch(cafeSearch);
@@ -86,22 +106,7 @@ function Dashboard() {
       setNoResults(true);
       setCafeSearch("");
     }
-  }
-
-  async function transformReferences() {
-    try {
-      if (!currentCafe) return;
-      if (
-        currentCafe.photos.length > 0 &&
-        !currentCafe.photos?.[0]?.photo_url
-      ) {
-        let { data } = await API.addUrls(currentCafe.photos);
-        setCurrentCafe({ ...currentCafe, photos: data });
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  };
 
   // Retrieves user input in the searchbar
   const handleCafeChange = (cafeForm) => {
@@ -109,10 +114,6 @@ function Dashboard() {
     setPlacesState({ ...placesState, searchResults: null });
     setCafes([]);
   };
-
-  useEffect(() => {
-    transformReferences();
-  }, [currentCafe]);
 
   return (
     <div className="Dashboard">
