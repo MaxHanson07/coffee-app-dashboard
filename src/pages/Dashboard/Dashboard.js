@@ -94,7 +94,7 @@ function Dashboard() {
   };
 
   // Makes API call to database to search for a cafe with a name similar to the name entered in searchbar
-  const handleCafesSearchSubmit = async (event) => {
+  const handleCafesSearchSubmit(event) {
     try {
       event.preventDefault();
       let { data } = await API.cafesSearch(cafeSearch);
@@ -106,7 +106,7 @@ function Dashboard() {
       setNoResults(true);
       setCafeSearch("");
     }
-  };
+  }
 
   // Retrieves user input in the searchbar
   const handleCafeChange = (cafeForm) => {

@@ -5,11 +5,13 @@ import InputField from "../../components/InputField/InputField";
 import API from "../../utils/API";
 import "./Login.scss";
 
-function Login() {
+function Login({setLoggedIn, loggedIn}) {
   const [loginFormState, setLoginFormState] = useState({
-    user: "",
+    username: "",
     password: "",
   });
+
+  const [failure, setFailure] = useState(false)
 
   const inputChange = (event) => {
     const { name, value } = event.target;
@@ -19,23 +21,30 @@ function Login() {
     });
   };
 
-  const formSubmit = (event) => {
+  const formSubmit = event => {
     event.preventDefault();
-    API.login(loginFormState);
-  };
+    API.login(loginFormState).then(newToken => {
+      console.log(newToken)
+      localStorage.setItem("token", newToken.token)
+      setLoggedIn(true)
+    }).catch(err=>setFailure(true))
+  }
 
   return (
     <>
       <div className="Login">
-        <Header />
+        <Header loggedIn={loggedIn}/>
         <form className="LoginForm" onSubmit={formSubmit}>
           <h4>Login</h4>
+          <div className="Response">
+            {failure ? <p>Incorrect username or password</p>:null}
+          </div>
           <InputField
             onChange={inputChange}
-            value={loginFormState.user}
+            value={loginFormState.username}
             type="text"
-            name="user"
-            placeholder="user"
+            name="username"
+            placeholder="username"
           />
           <InputField
             onChange={inputChange}

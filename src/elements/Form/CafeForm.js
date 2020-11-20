@@ -31,36 +31,44 @@ function CafeForm({ form, id }) {
     event.preventDefault();
     // If an id exists run an update, if no id run a create
     // Id will exist when a cafe is selected after a database search
+    let token = localStorage.getItem("token");
     if (id) {
-      API.updateCafe(id, {
-        name: formObject.name,
-        lat: formObject.lat,
-        lng: formObject.lng,
-        formatted_address: formObject.formatted_address,
-        formatted_phone_number: formObject.formatted_phone_number,
-        photos: formObject.photos,
-        website: formObject.website,
-        instagram_url: formObject.instagram_url,
-        roasters: formObject.roasters?.map((roaster) => roaster._id),
-        custom_photos: [formObject.images],
-        is_featured: isFeatured,
-      });
+      API.updateCafe(
+        id,
+        {
+          name: formObject.name,
+          lat: formObject.lat,
+          lng: formObject.lng,
+          formatted_address: formObject.formatted_address,
+          formatted_phone_number: formObject.formatted_phone_number,
+          photos: formObject.photos,
+          website: formObject.website,
+          instagram_url: formObject.instagram_url,
+          roasters: formObject.roasters?.map((roaster) => roaster._id),
+          custom_photos: [formObject.images],
+          is_featured: isFeatured,
+        },
+        token
+      );
     } else {
       // Creates a new cafe to database
-      API.postCafe({
-        name: formObject.name,
-        places_id: formObject.places_id,
-        lat: formObject.lat,
-        lng: formObject.lng,
-        formatted_address: formObject.formatted_address,
-        formatted_phone_number: formObject.formatted_phone_number,
-        photos: formObject.photos,
-        website: formObject.website,
-        instagram_url: formObject.instagram_url,
-        roasters: formObject.roasters?.map((roaster) => roaster._id),
-        custom_photos: [formObject.images],
-        is_featured: isFeatured,
-      });
+      API.postCafe(
+        {
+          name: formObject.name,
+          places_id: formObject.places_id,
+          lat: formObject.lat,
+          lng: formObject.lng,
+          formatted_address: formObject.formatted_address,
+          formatted_phone_number: formObject.formatted_phone_number,
+          photos: formObject.photos,
+          website: formObject.website,
+          instagram_url: formObject.instagram_url,
+          roasters: formObject.roasters?.map((roaster) => roaster._id),
+          custom_photos: [formObject.images],
+          is_featured: isFeatured,
+        },
+        token
+      );
     }
 
     setIsFeatured(false);
@@ -70,7 +78,8 @@ function CafeForm({ form, id }) {
   // Deletes cafes from database
   const handleDelete = (event) => {
     event.preventDefault();
-    API.deleteCafe(id).catch((err) => console.error(err));
+    let token = localStorage.getItem("token");
+    API.deleteCafe(id, token).catch((err) => console.error(err));
     setFormObject({});
   };
 

@@ -24,13 +24,14 @@ function RoasterForm() {
   const handleRoasterFormSubmit = async (event) => {
     try {
       event.preventDefault();
+      let token = localStorage.getItem("token")
       let method;
       if (roasterFormObject._id) {
         method = "updateRoaster";
       } else {
         method = "postRoaster";
       }
-      await API[method](roasterFormObject._id, roasterFormObject);
+      await API[method](roasterFormObject._id, roasterFormObject, token);
       setRoasterFormObject({
         name: "",
         instagram_url: "",

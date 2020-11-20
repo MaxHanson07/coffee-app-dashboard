@@ -20,7 +20,8 @@ export default function Requests() {
   };
   // Deletes request by the id of the request in which the delete button is selected
   const deleteRequest = (id) => {
-    API.deleteRequest(id)
+    let token = localStorage.getItem("token");
+    API.deleteRequest(id, token)
       .then((res) => loadRequests())
       .catch((err) => console.log(err));
   };
