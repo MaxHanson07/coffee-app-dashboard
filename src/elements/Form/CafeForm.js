@@ -17,6 +17,9 @@ function CafeForm({ form, id }) {
   function handleInputChange(event) {
     const { name, value } = event.target;
     setFormObject({ ...formObject, [name]: value });
+  }
+
+  function handleCheckChange(event) {
     if (isFeatured === true) {
       setIsFeatured(false);
     } else {
@@ -191,7 +194,7 @@ function CafeForm({ form, id }) {
         />
 
         <FeaturedCheck
-          onChange={handleInputChange}
+          onChange={handleCheckChange}
           checked={isFeatured === true ? true : false}
           name="featured"
           value={isFeatured || false}
