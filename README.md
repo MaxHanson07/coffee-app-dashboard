@@ -34,7 +34,8 @@ Web Link: <https://cfe-dash.herokuapp.com/>
 
 ### Tech-Breakdown
 
-- This page was built using React JS
+- MERN stack
+- App was built using React JS
 - Page handling used React-Router-Dom
 - API calls were made using Axios and Fetch
 - SCSS was used to style the app
