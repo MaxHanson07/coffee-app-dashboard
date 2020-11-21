@@ -1,53 +1,93 @@
 import axios from "axios";
-
+/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
   // Cafe API calls
   getCafe: function (id) {
     return axios.get(process.env.REACT_APP_SERVER_URL + "/api/cafes/" + id);
   },
-  updateCafe: function (id, data) {
-    return axios.put(
+  updateCafe: function (id, data, token) {
+    return fetch(
       process.env.REACT_APP_SERVER_URL + "/api/cafes/" + id,
-      data
+      {
+        method: "PUT",
+        headers: {
+          "authorization": `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }
     );
   },
-  deleteCafe: function (id) {
-    return axios.delete(process.env.REACT_APP_SERVER_URL + "/api/cafes/" + id);
+  deleteCafe: function (id, token) {
+    return fetch(process.env.REACT_APP_SERVER_URL + "/api/cafes/" + id, 
+    {
+      method: "DELETE",
+      headers: {
+        "authorization": `Bearer ${token}`,
+      }
+    });
   },
-  postCafe: function (cafeData) {
-    return axios.post(
+  postCafe: function (cafeData, token) {
+    return fetch(
       process.env.REACT_APP_SERVER_URL + "/api/cafes",
-      cafeData
+      {
+        method: "POST",
+        headers: {
+          "authorization": `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cafeData)
+      }
     );
   },
   // Request API calls
   getRequests: function () {
     return axios.get(process.env.REACT_APP_SERVER_URL + "/api/requests");
   },
-  deleteRequest: function (id) {
-    return axios.delete(
-      process.env.REACT_APP_SERVER_URL + "/api/requests/" + id
-    );
+  deleteRequest: function (id, token) {
+    return fetch(`${process.env.REACT_APP_SERVER_URL}/api/requests/${id}`, {
+      method: "DELETE",
+      headers: {
+        "authorization": `Bearer ${token}`
+      }
+    })
   },
   getRoaster: function (id) {
     return axios.get(process.env.REACT_APP_SERVER_URL + "/api/roasters/" + id);
   },
-  postRoaster: function (id, data) {
-    return axios.post(
-      process.env.REACT_APP_SERVER_URL + "/api/roasters/",
-      data
+  postRoaster: function (id, data, token) {
+    return fetch(
+      process.env.REACT_APP_SERVER_URL + "/api/roasters/", 
+      {
+        method: "POST",
+        headers: {
+          "authorization": `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }
     );
   },
-  updateRoaster: function (id, data) {
-    return axios.put(
-      process.env.REACT_APP_SERVER_URL + "/api/roasters/" + id,
-      data
+  updateRoaster: function (id, data, token) {
+    return fetch(
+      process.env.REACT_APP_SERVER_URL + "/api/roasters/" + id, 
+      {
+        method: "PUT",
+        headers: {
+          "authorization": `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }
     );
   },
-  deleteRoaster: function (id) {
-    return axios.delete(
-      process.env.REACT_APP_SERVER_URL + "/api/roasters/" + id
-    );
+  deleteRoaster: function (id, token) {
+    return fetch(`${process.env.REACT_APP_SERVER_URL}/api/roasters/${id}`, {
+      method: "DELETE",
+      headers: {
+        "authorization": `Bearer ${token}`
+      }
+    })
   },
   roastersSearch: function (name) {
     return axios.get(
@@ -71,4 +111,21 @@ export default {
       process.env.REACT_APP_SERVER_URL + "/api/cafes/search/" + name
     );
   },
+  login: function (userData) {
+    return fetch(
+      process.env.REACT_APP_SERVER_URL + "/api/users/login", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+    }).then(res => res.json()).catch(err => null)
+  },
+  verifyToken: function (token) {
+    return fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/checkAuth`, {
+      headers: {
+        "authorization": `Bearer ${token}`
+      }
+    })
+  }
 };

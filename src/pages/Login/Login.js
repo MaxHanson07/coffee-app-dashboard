@@ -1,69 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
+import Button from "../../components/Button/Button";
+import Header from "../../components/Header/Header";
+import InputField from "../../components/InputField/InputField";
+import API from "../../utils/API";
 import "./Login.scss";
 
-class Form extends Component {
-  // Setting the component's initial state
-  state = {
-    userName: "",
+function Login({setLoggedIn, loggedIn}) {
+  const [loginFormState, setLoginFormState] = useState({
+    username: "",
     password: "",
-  };
+  });
 
-  handleInputChange = (event) => {
-    // Getting the value and name of the input which triggered the change
-    let value = event.target.value;
-    const name = event.target.name;
+  const [failure, setFailure] = useState(false)
 
-    if (name === "password") {
-      value = value.substring(0, 15);
-    }
-    // Updating the input's state
-    this.setState({
+  const inputChange = (event) => {
+    const { name, value } = event.target;
+    setLoginFormState({
+      ...loginFormState,
       [name]: value,
     });
   };
 
-  handleFormSubmit = (event) => {
+  const formSubmit = event => {
     event.preventDefault();
-    if (!this.state.firstName || !this.state.lastName) {
-      alert("Fill out your first and last name please!");
-    } else if (this.state.password.length < 6) {
-      alert(
-        `Choose a more secure password ${this.state.firstName} ${this.state.lastName}`
-      );
-    } else {
-      alert(`Hello ${this.state.UserName}`);
-    }
+    API.login(loginFormState).then(newToken => {
+      localStorage.setItem("token", newToken.token)
+      setLoggedIn(true)
+    }).catch(err=>setFailure(true))
+  }
 
-    this.setState({
-      userName: "",
-      password: "",
-    });
-  };
-
-  render() {
-    return (
-      <div>
-        <p>Hello {this.state.UserName}</p>
-        <form className="form">
-          <input
-            value={this.state.userName}
-            name="firstName"
-            onChange={this.handleInputChange}
+  return (
+    <>
+      <div className="Login">
+        <Header loggedIn={loggedIn}/>
+        <form className="LoginForm" onSubmit={formSubmit}>
+          <h4>Login</h4>
+          <div className="Response">
+            {failure ? <p>Incorrect username or password</p>:null}
+          </div>
+          <InputField
+            onChange={inputChange}
+            value={loginFormState.username}
             type="text"
-            placeholder="Username"
+            name="username"
+            placeholder="username"
           />
-          <input
-            value={this.state.password}
-            name="password"
-            onChange={this.handleInputChange}
+          <InputField
+            onChange={inputChange}
+            value={loginFormState.password}
             type="password"
-            placeholder="Password"
+            name="password"
+            placeholder="password"
           />
-          <button onClick={this.handleFormSubmit}>Submit</button>
+          <Button className="Btn" name="login" type="submit" value="login" />
         </form>
       </div>
-    );
-  }
+    </>
+  );
 }
 
-export default Form;
+export default Login;
