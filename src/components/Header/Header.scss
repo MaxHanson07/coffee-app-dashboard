@@ -1,7 +1,7 @@
 header {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   grid-row: 1 / span 1;
   grid-column: 1 / span 6;
   background-color: #1c1919;
@@ -12,6 +12,17 @@ header {
     height: 40px;
   }
 
+
+}
+
+.Btns {
+  grid-row: 1 / span 1;
+  grid-column: 4 / span 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  
   .logout {
     background-color: rgb(255, 255, 255);
     display: inline-flex;
@@ -24,10 +35,41 @@ header {
     font-size: 14px;
     font-weight: 500;
     font-family: "interstate", "san-serif";
-    margin-right: 10px;
+    margin-right: 20px;
     cursor: pointer;
     span {
       margin-left: 10px;
     }
+  }
+}
+
+@media screen and (max-width: 1120px) {
+  header {
+    grid-column: 1 / span 3;
+  }
+  .Btns {
+    grid-column: 2 / span 1;
+    z-index: 1;
+    width: 100%;
+    justify-content: flex-end;
+    margin-right: 40px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .Btns {
+    grid-column: 3 / span 1;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  header {
+    grid-row: 1 / span 2;
+
+  }
+  .Btns {
+    grid-column: 2 / span 1;
+    margin-left: 60px;
+    justify-content: flex-end;
   }
 }

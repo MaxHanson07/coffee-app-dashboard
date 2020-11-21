@@ -24,7 +24,6 @@ function Login({setLoggedIn, loggedIn}) {
   const formSubmit = event => {
     event.preventDefault();
     API.login(loginFormState).then(newToken => {
-      console.log(newToken)
       localStorage.setItem("token", newToken.token)
       setLoggedIn(true)
     }).catch(err=>setFailure(true))

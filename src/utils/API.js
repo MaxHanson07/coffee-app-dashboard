@@ -112,7 +112,6 @@ export default {
     );
   },
   login: function (userData) {
-    console.log(userData)
     return fetch(
       process.env.REACT_APP_SERVER_URL + "/api/users/login", {
       method: "POST",
@@ -123,7 +122,6 @@ export default {
     }).then(res => res.json()).catch(err => null)
   },
   verifyToken: function (token) {
-    console.log(token)
     return fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/checkAuth`, {
       headers: {
         "authorization": `Bearer ${token}`
