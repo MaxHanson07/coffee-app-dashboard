@@ -17,6 +17,8 @@
 
 ### General info
 
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/68626350/99982932-10fc1b80-2d60-11eb-8869-d465fa24ba45.gif)
+
 This dashboard was built to allow the team at Cfe to quickly and easily build out the cafe database to allow for improved scalability. This is a react application, on load you are prompted to a login page, the user is then verified using JWT and redirected to the dashboard page. Once at the dashboard the user can search the cafes currently in the database, or search the Google Places Api to scrape data to fill out the necessary information for each cafe. You can then add the cafe you're looking for, and the form will auto populate with the relevant information, you can even upload relevant photos using Cloudinary. Same goes for roaster information. This allows the team to have full CRUD functionality with the cafes and roasters. In the right hand column there is a Incoming Requests box that gets populated whenever there is a request sent from the client front end, allowing the end user to suggest cafes that should be added or removed from the platform.
 
 To see a full video walk through of the app check that out here: Coming Soon!
